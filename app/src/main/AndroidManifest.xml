@@ -70,6 +70,17 @@
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".MediActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".LowActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name="com.example.fbtest.YouTubeAPIDemoActivity">
             <meta-data android:name="@string/isLaunchableActivity" android:value="false"/>
