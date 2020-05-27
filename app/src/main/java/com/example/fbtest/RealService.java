@@ -1,92 +1,144 @@
 package com.example.fbtest;
 
-import android.app.AlarmManager;
+
 import android.app.Application;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
-
-import androidx.core.app.NotificationCompat;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 //import android.support.v4.app.NotificationCompat;
 
-public class RealService extends Service {
-    private Thread mainThread;
+public class RealService extends Service implements SensorEventListener {
     public static Intent serviceIntent = null;
+    private long lastTime;
+    private float speed;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+    private float x, y, z;
+    int SHAKE_THRESHOLD = 800;
+    private static final int DATA_X = SensorManager.DATA_X;
+    private static final int DATA_Y = SensorManager.DATA_Y;
+    private static final int DATA_Z = SensorManager.DATA_Z;
+    SensorManager sensorManager;
+    Sensor accelerormeterSensor;
 
-    public RealService() {
+    NotificationManager Notifi_M;
+    Notification Notifi;
+    ServiceThread thread;
+
+
+    // 서비스를 생성할 때 호출
+    public void onCreate() {
+        super.onCreate();
+        Log.d("여기는", "서비스의 onCreate");
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerormeterSensor = sensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         serviceIntent = intent;
-        showToast(getApplication(), "Start Service");
+        // Log.e("MyService", "Service startId = " + startId);
+        super.onStart(intent, startId);
+        Log.e("감지", "서비스의 onstart입니다");
 
-        mainThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleDateFormat sdf = new SimpleDateFormat("aa hh:mm");
-                boolean run = true;
-                while (run) {
-                    try {
-                        Thread.sleep(1000 * 60 * 1); // 1 minute
-                        Date date = new Date();
-                        //showToast(getApplication(), sdf.format(date));
-                        sendNotification(sdf.format(date));
-                    } catch (InterruptedException e) {
-                        run = false;
-                        e.printStackTrace();
-                    }
+        if (accelerormeterSensor != null)
+            sensorManager.registerListener(this, accelerormeterSensor,
+                    SensorManager.SENSOR_DELAY_GAME);
+
+        Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        myServiceHandler handler = new myServiceHandler();
+        thread = new ServiceThread(handler);
+        thread.start();
+        return START_STICKY;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+/*
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        myServiceHandler handler = new myServiceHandler();
+
+        Log.d("여기는", "서비스의 onStartCommand");
+        return START_STICKY;
+    }
+*/
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        //Log.d("여기는", "서비스의 sensor_changed");
+
+        String id_value = serviceIntent.getStringExtra("id");
+
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long currentTime = System.currentTimeMillis();
+            long gabOfTime = (currentTime - lastTime);
+
+            if (gabOfTime > 95) {
+                lastTime = currentTime;
+                x = event.values[SensorManager.DATA_X];
+                y = event.values[SensorManager.DATA_Y];
+                z = event.values[SensorManager.DATA_Z];
+                speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime
+                        * 10000;
+
+                if (speed > SHAKE_THRESHOLD) {
+                    PedoActivity.cnt++;
+                    PedoActivity.kcal = PedoActivity.cnt/30;
+                    FirebasePost user = new FirebasePost();
+                    user.WriteStep(id_value, PedoActivity.cnt);
+                    Intent intent1 = new Intent();
+                    intent1.setAction("com.example.fbtest");
+                    String pass = Integer.toString(PedoActivity.cnt);
+                    intent1.putExtra("DATAPASSED", pass);
+                    sendBroadcast(intent1);
+                    //Log.e("감지", "이벤트 발생");
                 }
+                lastX = event.values[DATA_X];
+                lastY = event.values[DATA_Y];
+                lastZ = event.values[DATA_Z];
             }
-        });
-        mainThread.start();
-
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        serviceIntent = null;
-        setAlarmTimer();
-        Thread.currentThread().interrupt();
-
-        if (mainThread != null) {
-            mainThread.interrupt();
-            mainThread = null;
         }
+        // }
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
+    class myServiceHandler extends Handler{
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            if (serviceIntent != null) {
+                Intent intent = new Intent(RealService.this, PedoActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(RealService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+                Notifi = new Notification.Builder(getApplicationContext()).setContentTitle("Content Title").setContentText("Content Text").setSmallIcon(R.drawable.icon).setTicker("알림!!!").setContentIntent(pendingIntent).build();
+                Notifi.defaults = Notification.DEFAULT_SOUND;
+                Notifi.flags = Notification.FLAG_ONLY_ALERT_ONCE;
+                Notifi.flags = Notification.FLAG_AUTO_CANCEL;
+                Notifi_M.notify(777, Notifi);
+                Toast.makeText(RealService.this, "", Toast.LENGTH_LONG).show();
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        return super.onUnbind(intent);
-    }
+            }
+        }
+    };
+
 
     public void showToast(final Application application, final String msg) {
         Handler h = new Handler(application.getMainLooper());
@@ -98,42 +150,26 @@ public class RealService extends Service {
         });
     }
 
-    protected void setAlarmTimer() {
-        final Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(System.currentTimeMillis());
-        c.add(Calendar.SECOND, 1);
-        Intent intent = new Intent(this, AlarmRecever.class);
-        PendingIntent sender = PendingIntent.getBroadcast(this, 0,intent,0);
+    public void onDestroy() {
+        super.onDestroy();
 
-        AlarmManager mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
+        serviceIntent = null;
+        thread.stopForever();
+        thread = null;
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(this);
+            Log.e("감지_destroy", "ondestroy");
+        }
     }
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
+    protected void onHandleIntent(Intent intent) {
+        Intent intent1 = new Intent();
+        intent1.setAction("com.example.fbtest");
+        intent1.putExtra("DATAPASSED", PedoActivity.cnt);
+        sendBroadcast(intent1);
+    }
 
-        String channelId = "fcm_default_channel";//getString(R.string.default_notification_channel_id);
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.mipmap.ic_launcher)//drawable.splash)
-                        .setContentTitle("Service test")
-                        .setContentText(messageBody)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setPriority(Notification.PRIORITY_HIGH)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,"Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

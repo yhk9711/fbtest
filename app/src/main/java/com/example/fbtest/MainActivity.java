@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String loginId, loginPwd;
     String dt_id;
     String step_num;
+    String goal_step;
 
     @Override
 
@@ -66,15 +67,19 @@ public class MainActivity extends AppCompatActivity {
                             pass = map.get("pw");
                             step_num = String.valueOf(map.get("step"));
 
+
                             Log.d("password", pass);
                             Log.d("step", step_num);
                         }
                         if(loginId.equals(dt_id) && loginPwd.equals(pass)) {
                             Toast.makeText(MainActivity.this, loginId +"님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
                             Log.d("자동로그인 성공함",pass);
-                            Intent intent = new Intent(MainActivity.this, com.example.lets_walk_firebase.PedoActivity.class);
+                            goal_step= String.valueOf(map.get("goal_step"));
+                            Intent intent = new Intent(MainActivity.this, com.example.fbtest.PedoActivity.class);
                             intent.putExtra("id", dt_id);
                             intent.putExtra("step", step_num);
+                            intent.putExtra("goal_step", goal_step);
+                            intent.putExtra("name", map.get("name"));
                             startActivity(intent);
                             finish();
                         }
@@ -108,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 pass = map.get("pw");
                                 step_num = String.valueOf(map.get("step"));
+                                goal_step= String.valueOf(map.get("goal_step"));
 
                                 Log.d("password", pass);
                                 if(pass.equals(checkpw.getText().toString()))
@@ -122,9 +128,14 @@ public class MainActivity extends AppCompatActivity {
                                     //꼭 commit()을 해줘야 값이 저장됩니다 ㅎㅎ
                                     autoLogin.commit();
                                     Toast.makeText(getApplicationContext(), "로그인에 성공하셨습니다.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), com.example.lets_walk_firebase.PedoActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), com.example.fbtest.PedoActivity.class);
                                     intent.putExtra("id", dt_id);
                                     intent.putExtra("step", step_num);
+                                    intent.putExtra("goal_step", goal_step);
+                                    intent.putExtra("name", map.get("name"));
+//                                    Intent intent2 = new Intent(getApplicationContext(), com.example.lwfb.RealService.class);
+//                                    intent.putExtra("id", dt_id);
+//                                    intent.putExtra("step", step_num);
                                     startActivity(intent);
                                     //Intent theIntent = new Intent(this, PedoActivity.class);
 
@@ -154,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
     }
 }

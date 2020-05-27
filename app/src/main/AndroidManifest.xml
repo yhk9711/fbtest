@@ -4,10 +4,12 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -16,10 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
+        <activity android:name=".SplashActivity">
 
-        <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize">
+            <!-- 시작 액티비티를 스플래시로 변경. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,30 +28,61 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".RegisterActivity"
             android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".PedoActivity"
             android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".MyInfo"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".NoticeActivity"
+            android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".FriendListActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".FindFriendActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".HomeTrainActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".HighActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name="com.example.fbtest.YouTubeAPIDemoActivity">
+            <meta-data android:name="@string/isLaunchableActivity" android:value="false"/>
+        </activity>
+
+
 
         <service
             android:name=".RealService"
             android:enabled="true"
             android:exported="true" />
 
-        <service
-            android:name=".RestartService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <receiver android:name=".AlarmRecever"/>
-
         <receiver
             android:name=".RebootRecever"
             android:enabled="true"
             android:exported="false"
+            android:label="BOOTReceiver"
             android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
