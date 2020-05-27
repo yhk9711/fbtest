@@ -8,6 +8,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fbtest.R;
+
 public class NoticeActivity extends AppCompatActivity implements View.OnClickListener {
     //    Button find_friend = (Button) findViewById(R.id.find_friend);
     protected void onCreate(Bundle savedInstanceState) {

@@ -33,9 +33,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PedoActivity extends Activity implements SensorEventListener {
+
+    public static List<String> friends = new ArrayList<String>();
+
+
 
     private DrawerLayout drawerLayout;
     private View drawerView;
@@ -46,6 +51,8 @@ public class PedoActivity extends Activity implements SensorEventListener {
     public static int kcal = cnt / 30;
     public static double dis = cnt / 1.5;
     public static int goal = 10000;
+    public static String my_id;
+
 
     private TextView fView;
     private TextView tView;
@@ -69,7 +76,9 @@ public class PedoActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerormeterSensor;
 
-    private Intent serviceIntent;
+    public static Intent serviceIntent;
+
+    RealService realService;
 
     String dt_id;
     String kcal_num;
@@ -86,6 +95,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedo);
 
+        friends.add(my_id);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("CALORIE").child("0");
 
@@ -122,7 +132,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
         Intent i3 = getIntent();
         i3.getStringExtra("name");
         Bundle bundle22 = getIntent().getExtras();
-        if(bundle22 != null){
+        if (bundle22 != null) {
             user_name = bundle22.getString("name");
 
         }
@@ -289,7 +299,6 @@ public class PedoActivity extends Activity implements SensorEventListener {
         name.setText("" + user_name + " 님");
 
 
-
         logout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -416,9 +425,31 @@ public class PedoActivity extends Activity implements SensorEventListener {
             stopService(serviceIntent);
             serviceIntent = null;
         }*/
-        startService(serviceIntent);
-    }
 
+
+        String id_value2 = null;
+        Intent i4 = getIntent();
+        i4.getStringExtra("id");
+        Bundle bundle2 = getIntent().getExtras();
+        if (bundle2 != null) {
+            id_value2 = bundle2.getString("id");
+            Log.d("id", id_value2);
+        }
+        String step_value = null;
+        Intent i = getIntent();
+        i.getStringExtra("step");
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            step_value = bundle.getString("step");
+            Log.d("step_value", step_value);
+        }
+        serviceIntent = new Intent(this, RealService.class);
+        serviceIntent.putExtra("id", id_value2);
+        serviceIntent.putExtra("step", step_value);
+        startService(serviceIntent);
+
+        //startService(serviceIntent);
+    }
 
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
@@ -446,7 +477,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
     public void onStart() {
 
         super.onStart();
-        if(serviceIntent != null){
+        if (serviceIntent != null) {
             stopService(serviceIntent);
         }
 
@@ -478,108 +509,109 @@ public class PedoActivity extends Activity implements SensorEventListener {
                         String value = map.get("30");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 50 && kcal < 100){
+                    } else if (kcal >= 50 && kcal < 100) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("50");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 100 && kcal < 150){
+                    } else if (kcal >= 100 && kcal < 150) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("100");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 150 && kcal < 200){
+                    } else if (kcal >= 150 && kcal < 200) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("150");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 200 && kcal < 250){
+                    } else if (kcal >= 200 && kcal < 250) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("200");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 250 && kcal < 300){
+                    } else if (kcal >= 250 && kcal < 300) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("250");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 300 && kcal < 350){
+                    } else if (kcal >= 300 && kcal < 350) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("300");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 350 && kcal < 400){
+                    } else if (kcal >= 350 && kcal < 400) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("350");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 400 && kcal < 450){
+                    } else if (kcal >= 400 && kcal < 450) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("400");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 450 && kcal < 500){
+                    } else if (kcal >= 450 && kcal < 500) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("450");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 500 && kcal < 550){
+                    } else if (kcal >= 500 && kcal < 550) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("500");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 550 && kcal < 600){
+                    } else if (kcal >= 550 && kcal < 600) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("550");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 600 && kcal < 650){
+                    } else if (kcal >= 600 && kcal < 650) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("600");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 650 && kcal < 700){
+                    } else if (kcal >= 650 && kcal < 700) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("650");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 700 && kcal < 750){
+                    } else if (kcal >= 700 && kcal < 750) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("700");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 750 && kcal < 800){
+                    } else if (kcal >= 750 && kcal < 800) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("750");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 800 && kcal < 850){
+                    } else if (kcal >= 800 && kcal < 850) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("800");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 850 && kcal < 900){
+                    } else if (kcal >= 850 && kcal < 900) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("850");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 900 && kcal < 950){
+                    } else if (kcal >= 900 && kcal < 950) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("900");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 950 && kcal < 1000){
+                    } else if (kcal >= 950 && kcal < 1000) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("950");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 1000){
+                    } else if (kcal >= 1000) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("1000");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -594,12 +626,12 @@ public class PedoActivity extends Activity implements SensorEventListener {
             PieChart pieChart = findViewById(R.id.piechart);
 
             ArrayList Step = new ArrayList();
-            int numtogoal = PedoActivity.goal-PedoActivity.cnt;
-            if (numtogoal<0){
-                numtogoal = 0 ;
+            int numtogoal = PedoActivity.goal - PedoActivity.cnt;
+            if (numtogoal < 0) {
+                numtogoal = 0;
             }
             String nowstep = Integer.toString(PedoActivity.cnt);
-            PieDataSet dataSet = new PieDataSet(Step,"");
+            PieDataSet dataSet = new PieDataSet(Step, "");
             Step.add(new Entry(PedoActivity.cnt, 0));
             Step.add(new Entry(numtogoal, 1));
 
@@ -616,11 +648,11 @@ public class PedoActivity extends Activity implements SensorEventListener {
             pieChart.setData(data);
             data.setValueTextSize(14f);
             //data.setValueTextColor(Color.TRANSPARENT);
-            final int[] MY_COLORS = {Color.rgb(102,153,204), Color.rgb(255,255,255), Color.rgb(255,192,0),
-                    Color.rgb(127,127,127), Color.rgb(146,208,80), Color.rgb(0,176,80), Color.rgb(79,129,189)};
+            final int[] MY_COLORS = {Color.rgb(102, 153, 204), Color.rgb(255, 255, 255), Color.rgb(255, 192, 0),
+                    Color.rgb(127, 127, 127), Color.rgb(146, 208, 80), Color.rgb(0, 176, 80), Color.rgb(79, 129, 189)};
             ArrayList<Integer> colors = new ArrayList<Integer>();
 
-            for(int c: MY_COLORS) colors.add(c);
+            for (int c : MY_COLORS) colors.add(c);
 
             dataSet.setColors(colors);
             //dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
@@ -663,108 +695,109 @@ public class PedoActivity extends Activity implements SensorEventListener {
                         String value = map.get("30");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 50 && kcal < 100){
+                    } else if (kcal >= 50 && kcal < 100) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("50");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 100 && kcal < 150){
+                    } else if (kcal >= 100 && kcal < 150) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("100");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 150 && kcal < 200){
+                    } else if (kcal >= 150 && kcal < 200) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("150");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 200 && kcal < 250){
+                    } else if (kcal >= 200 && kcal < 250) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("200");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 250 && kcal < 300){
+                    } else if (kcal >= 250 && kcal < 300) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("250");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 300 && kcal < 350){
+                    } else if (kcal >= 300 && kcal < 350) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("300");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 350 && kcal < 400){
+                    } else if (kcal >= 350 && kcal < 400) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("350");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 400 && kcal < 450){
+                    } else if (kcal >= 400 && kcal < 450) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("400");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 450 && kcal < 500){
+                    } else if (kcal >= 450 && kcal < 500) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("450");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 500 && kcal < 550){
+                    } else if (kcal >= 500 && kcal < 550) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("500");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 550 && kcal < 600){
+                    } else if (kcal >= 550 && kcal < 600) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("550");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 600 && kcal < 650){
+                    } else if (kcal >= 600 && kcal < 650) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("600");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 650 && kcal < 700){
+                    } else if (kcal >= 650 && kcal < 700) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("650");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 700 && kcal < 750){
+                    } else if (kcal >= 700 && kcal < 750) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("700");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 750 && kcal < 800){
+                    } else if (kcal >= 750 && kcal < 800) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("750");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 800 && kcal < 850){
+                    } else if (kcal >= 800 && kcal < 850) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("800");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 850 && kcal < 900){
+                    } else if (kcal >= 850 && kcal < 900) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("850");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 900 && kcal < 950){
+                    } else if (kcal >= 900 && kcal < 950) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("900");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 950 && kcal < 1000){
+                    } else if (kcal >= 950 && kcal < 1000) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("950");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
-                    } else if(kcal >= 1000){
+                    } else if (kcal >= 1000) {
                         Map<String, String> map = (Map) dataSnapshot.getValue();
                         String value = map.get("1000");
                         Log.d("get_value", value);
                         foodView.setText("" + value);
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -796,8 +829,18 @@ public class PedoActivity extends Activity implements SensorEventListener {
                 id_value2 = bundle2.getString("id");
                 Log.d("id", id_value2);
             }
+            String step_value = null;
+            Intent i = getIntent();
+            i.getStringExtra("step");
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                step_value = bundle.getString("step");
+                Log.d("step_value", step_value);
+            }
             serviceIntent = new Intent(this, RealService.class);
+
             serviceIntent.putExtra("id", id_value2);
+            serviceIntent.putExtra("step", step_value);
             startService(serviceIntent);
         }
     }
@@ -837,102 +880,102 @@ public class PedoActivity extends Activity implements SensorEventListener {
                                 String value = map.get("30");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 50 && kcal < 100){
+                            } else if (kcal >= 50 && kcal < 100) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("50");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 100 && kcal < 150){
+                            } else if (kcal >= 100 && kcal < 150) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("100");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 150 && kcal < 200){
+                            } else if (kcal >= 150 && kcal < 200) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("150");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 200 && kcal < 250){
+                            } else if (kcal >= 200 && kcal < 250) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("200");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 250 && kcal < 300){
+                            } else if (kcal >= 250 && kcal < 300) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("250");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 300 && kcal < 350){
+                            } else if (kcal >= 300 && kcal < 350) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("300");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 350 && kcal < 400){
+                            } else if (kcal >= 350 && kcal < 400) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("350");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 400 && kcal < 450){
+                            } else if (kcal >= 400 && kcal < 450) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("400");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 450 && kcal < 500){
+                            } else if (kcal >= 450 && kcal < 500) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("450");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 500 && kcal < 550){
+                            } else if (kcal >= 500 && kcal < 550) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("500");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 550 && kcal < 600){
+                            } else if (kcal >= 550 && kcal < 600) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("550");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 600 && kcal < 650){
+                            } else if (kcal >= 600 && kcal < 650) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("600");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 650 && kcal < 700){
+                            } else if (kcal >= 650 && kcal < 700) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("650");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 700 && kcal < 750){
+                            } else if (kcal >= 700 && kcal < 750) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("700");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 750 && kcal < 800){
+                            } else if (kcal >= 750 && kcal < 800) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("750");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 800 && kcal < 850){
+                            } else if (kcal >= 800 && kcal < 850) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("800");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 850 && kcal < 900){
+                            } else if (kcal >= 850 && kcal < 900) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("850");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 900 && kcal < 950){
+                            } else if (kcal >= 900 && kcal < 950) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("900");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 950 && kcal < 1000){
+                            } else if (kcal >= 950 && kcal < 1000) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("950");
                                 Log.d("get_value", value);
                                 foodView.setText("" + value);
-                            } else if(kcal >= 1000){
+                            } else if (kcal >= 1000) {
                                 Map<String, String> map = (Map) dataSnapshot.getValue();
                                 String value = map.get("1000");
                                 Log.d("get_value", value);
@@ -957,12 +1000,12 @@ public class PedoActivity extends Activity implements SensorEventListener {
                     PieChart pieChart = findViewById(R.id.piechart);
 
                     ArrayList Step = new ArrayList();
-                    int numtogoal = PedoActivity.goal-PedoActivity.cnt;
-                    if (numtogoal<0){
-                        numtogoal = 0 ;
+                    int numtogoal = PedoActivity.goal - PedoActivity.cnt;
+                    if (numtogoal < 0) {
+                        numtogoal = 0;
                     }
                     String nowstep = Integer.toString(PedoActivity.cnt);
-                    PieDataSet dataSet = new PieDataSet(Step,"");
+                    PieDataSet dataSet = new PieDataSet(Step, "");
                     Step.add(new Entry(PedoActivity.cnt, 0));
                     Step.add(new Entry(numtogoal, 1));
 
@@ -979,11 +1022,11 @@ public class PedoActivity extends Activity implements SensorEventListener {
                     pieChart.setData(data);
                     data.setValueTextSize(14f);
                     //data.setValueTextColor(Color.TRANSPARENT);
-                    final int[] MY_COLORS = {Color.rgb(102,153,204), Color.rgb(255,255,255), Color.rgb(255,192,0),
-                            Color.rgb(127,127,127), Color.rgb(146,208,80), Color.rgb(0,176,80), Color.rgb(79,129,189)};
+                    final int[] MY_COLORS = {Color.rgb(102, 153, 204), Color.rgb(255, 255, 255), Color.rgb(255, 192, 0),
+                            Color.rgb(127, 127, 127), Color.rgb(146, 208, 80), Color.rgb(0, 176, 80), Color.rgb(79, 129, 189)};
                     ArrayList<Integer> colors = new ArrayList<Integer>();
 
-                    for(int c: MY_COLORS) colors.add(c);
+                    for (int c : MY_COLORS) colors.add(c);
 
                     dataSet.setColors(colors);
                     //dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
@@ -1020,8 +1063,12 @@ public class PedoActivity extends Activity implements SensorEventListener {
                 FirebasePost user = new FirebasePost();
                 user.WriteStep(id_value, cnt);
 
-                Intent intent2 = new Intent(getApplicationContext(), com.example.fbtest.RealService.class);
+                Intent intent2 = new Intent(getApplicationContext(), RealService.class);
                 intent2.putExtra("id", id_value);
+//
+//                Intent intent3 = new Intent(PedoActivity.this, com.example.lwfb.FriendListActivity.class);
+//                intent3.putExtra("my_id",id_value);
+                my_id=id_value;
 
                 //Intent intent = new Intent(PedoActivity.this, com.example.lets_walk_firebase.RealService.class);
                 //intent.putExtra("cnt", String.valueOf(cnt));

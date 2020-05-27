@@ -1,7 +1,6 @@
 package com.example.fbtest;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +24,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+    //public static String[] strData= new String[100];
+
+    //static List<String> data;
 
     private DatabaseReference mPostReference;
 
@@ -69,11 +72,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     int step = 0;
     int goal_step = 10000;
 
+    public List<String> friends = new ArrayList<String>();
+
     long age;
 
     String gender = "";
 
     String sort = "id";
+
 
 
 
@@ -92,6 +98,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
+
 
         setContentView(R.layout.activity_register);
 
@@ -126,19 +135,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         check_Woman.setOnClickListener(this);
 
         /*check_ID = (CheckBox) findViewById(R.id.check_userid);
-
         check_ID.setOnClickListener(this);
-
 */
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
       /*  ListView listView = (ListView) findViewById(R.id.db_list_view);
-
         listView.setAdapter(arrayAdapter);
-
         listView.setOnItemClickListener(onClickListener);
-
         listView.setOnItemLongClickListener(longClickListener);*/
 
 
@@ -206,13 +210,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 check_Man.setChecked(true);
 
-                gender = "Man";
+                gender = "남";
 
             }else{
 
                 check_Woman.setChecked(true);
 
-                gender = "Woman";
+                gender = "여";
 
             }
 
@@ -228,73 +232,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-    private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
-
-        @Override
-
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Log.d("Long Click", "position = " + position);
-
-            final String[] nowData = arrayData.get(position).split("\\s+");
-
-            ID = nowData[0];
-
-            String viewData = nowData[0] + ", " + nowData[1] + ", " + nowData[2] + ", " + nowData[3] + ", " + nowData[4];
-
-            AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterActivity.this);
-
-            dialog.setTitle("데이터 삭제")
-
-                    .setMessage("해당 데이터를 삭제 하시겠습니까?" + "\n" + viewData)
-
-                    .setPositiveButton("네", new DialogInterface.OnClickListener() {
-
-                        @Override
-
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            postFirebaseDatabase(false);
-
-                            getFirebaseDatabase();
-
-                            setInsertMode();
-
-                            edit_ID.setEnabled(true);
-
-                            Toast.makeText(RegisterActivity.this, "데이터를 삭제했습니다.", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    })
-
-                    .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-
-                        @Override
-
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            Toast.makeText(RegisterActivity.this, "삭제를 취소했습니다.", Toast.LENGTH_SHORT).show();
-
-                            setInsertMode();
-
-                            edit_ID.setEnabled(true);
-
-                        }
-
-                    })
-
-                    .create()
-
-                    .show();
-
-            return false;
-
-        }
-
-    };
-
-
 
     public boolean IsExistID(){
 
@@ -307,6 +244,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     public void postFirebaseDatabase(boolean add){
+        //strData[0]=ID;
+        //List<String> listData = new ArrayList<String>();
+        //listData = Arrays.asList(strData);
+
+        friends.add(ID);
+        FirebasePost.friends=friends;
+        Log.d("regis.fr", String.valueOf(friends));
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -316,7 +260,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(add){
 
-            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step);
+            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, friends);
 
             postValues = post.toMap();
 
@@ -325,6 +269,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         childUpdates.put("/MEMBER/" + ID, postValues);
 
         mPostReference.updateChildren(childUpdates);
+
 
     }
 
@@ -440,7 +385,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 check_Woman.setChecked(false);
 
-                gender = "Man";
+                gender = "남";
 
                 break;
 
@@ -450,7 +395,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 check_Man.setChecked(false);
 
-                gender = "Woman";
+                gender = "여";
 
                 break;
 
