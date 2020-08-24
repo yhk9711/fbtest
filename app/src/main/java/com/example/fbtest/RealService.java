@@ -1,6 +1,7 @@
 package com.example.fbtest;
 
 
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +15,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,8 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
+//import java.text.SimpleDateFormat;
 
 //import android.support.v4.app.NotificationCompat;
 
@@ -48,14 +53,20 @@ public class RealService extends Service implements SensorEventListener {
 
     NotificationManager Notifi_M;
     Notification Notifi;
-    ServiceThread thread;
+    com.example.fbtest.ServiceThread thread;
 
     private DatabaseReference databaseReference;
+
+    private static int ONE_MINUTE = 5626;
 
 
     // 서비스를 생성할 때 호출
     public void onCreate() {
         super.onCreate();
+        PedoActivity.step_value =Integer.toString(PedoActivity.cnt);
+        PedoActivity.goal_step = Integer.toString(PedoActivity.goal);
+
+        new AlarmHATT(getApplicationContext()).Alarm();
 
         /*String step_value = serviceIntent.getStringExtra("step");
         PedoActivity.cnt = Integer.parseInt(step_value);*/
@@ -67,17 +78,43 @@ public class RealService extends Service implements SensorEventListener {
 
     }
 
+    public class AlarmHATT {
+        private Context context;
+        public AlarmHATT(Context context) {
+            this.context=context;
+        }
+        public void Alarm() {
+            AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(RealService.this, AlarmReceiver.class);
+
+            PendingIntent sender = PendingIntent.getBroadcast(RealService.this, 0, intent, 0);
+
+            Calendar calendar = Calendar.getInstance();
+            //알람시간 calendar에 set해주기
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 13);
+         //   calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 17, 55, 00);
+
+            //알람 예약
+          //  am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), (24*60*60*1000),sender);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
+
+        }
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        PedoActivity.step_value =Integer.toString(PedoActivity.cnt);
+        PedoActivity.goal_step = Integer.toString(PedoActivity.goal);
         serviceIntent = intent;
-
 
         /*String step_value = serviceIntent.getStringExtra("step");
         PedoActivity.cnt = Integer.parseInt(step_value);*/
 
         String id_value = serviceIntent.getStringExtra("id");
 
-        Log.d("서비스 start의 id_val", id_value);
+//        Log.d("서비스 start의 id_val", id_value);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("MEMBER").child(id_value);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,6 +127,9 @@ public class RealService extends Service implements SensorEventListener {
                 Map<String, List<String>> map2 = (Map) dataSnapshot.getValue();
                 List<String> friend = map2.get("friends");
                 PedoActivity.friends = friend;
+                PedoActivity.my_name = map.get("name");
+                PedoActivity.step_value =Integer.toString(PedoActivity.cnt);
+                PedoActivity.goal_step = Integer.toString(PedoActivity.goal);
             }
 
             @Override
@@ -98,7 +138,6 @@ public class RealService extends Service implements SensorEventListener {
             }
         });
 
-        // Log.e("MyService", "Service startId = " + startId);
         super.onStart(intent, startId);
         Log.e("감지", "서비스의 onstart입니다");
 
@@ -108,7 +147,7 @@ public class RealService extends Service implements SensorEventListener {
 
         Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         myServiceHandler handler = new myServiceHandler();
-        thread = new ServiceThread(handler);
+        thread = new com.example.fbtest.ServiceThread(handler);
         thread.start();
         return START_REDELIVER_INTENT;
     }
@@ -117,24 +156,14 @@ public class RealService extends Service implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-/*
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Notifi_M = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        myServiceHandler handler = new myServiceHandler();
-        Log.d("여기는", "서비스의 onStartCommand");
-        return START_STICKY;
-    }
-*/
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //Log.d("여기는", "서비스의 sensor_changed");
-
 
         String id_value = serviceIntent.getStringExtra("id");
 
-
+        PedoActivity.step_value =Integer.toString(PedoActivity.cnt);
+        PedoActivity.goal_step = Integer.toString(PedoActivity.goal);
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             long currentTime = System.currentTimeMillis();
             long gabOfTime = (currentTime - lastTime);
@@ -161,14 +190,12 @@ public class RealService extends Service implements SensorEventListener {
                     String pass = Integer.toString(PedoActivity.cnt);
                     intent1.putExtra("DATAPASSED", pass);
                     sendBroadcast(intent1);
-                    //Log.e("감지", "이벤트 발생");
                 }
                 lastX = event.values[DATA_X];
                 lastY = event.values[DATA_Y];
                 lastZ = event.values[DATA_Z];
             }
         }
-        // }
     }
 
     class myServiceHandler extends Handler{
@@ -183,7 +210,7 @@ public class RealService extends Service implements SensorEventListener {
                 Notifi.flags = Notification.FLAG_ONLY_ALERT_ONCE;
                 Notifi.flags = Notification.FLAG_AUTO_CANCEL;
                 Notifi_M.notify(777, Notifi);
-                //Toast.makeText(RealService.this, "", Toast.LENGTH_LONG).show();
+
 
             }
         }
@@ -203,8 +230,8 @@ public class RealService extends Service implements SensorEventListener {
     public void onDestroy() {
         super.onDestroy();
 
-        //serviceIntent = null;
-
+        PedoActivity.step_value =Integer.toString(PedoActivity.cnt);
+        PedoActivity.goal_step = Integer.toString(PedoActivity.goal);
         thread.stopForever();
         thread = null;
         if (sensorManager != null) {
@@ -223,4 +250,24 @@ public class RealService extends Service implements SensorEventListener {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+    /*public static void resetAlarm(Context context){
+        AlarmManager resetAlarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent resetIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent resetSender = PendingIntent.getBroadcast(context, 0, resetIntent, 0);
+        // 자정 시간
+        Calendar resetCal = Calendar.getInstance();
+        resetCal.setTimeInMillis(System.currentTimeMillis());
+        resetCal.set(Calendar.HOUR_OF_DAY, 21);
+        resetCal.set(Calendar.MINUTE,50);
+        resetCal.set(Calendar.SECOND, 0);
+        //다음날 0시에 맞추기 위해 24시간을 뜻하는 상수인 AlarmManager.INTERVAL_DAY를 더해줌.
+        resetAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, resetCal.getTimeInMillis()
+                +AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, resetSender);
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd kk:mm:ss");
+        String setResetTime = format.format(new Date(resetCal.getTimeInMillis()+AlarmManager.INTERVAL_DAY));
+        Log.d("resetAlarm", "ResetHour : " + setResetTime);
+    }*/
+
+
 }

@@ -1,4 +1,5 @@
 package com.example.fbtest;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -21,7 +22,7 @@ import com.example.fbtest.DemoListViewItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YouTubeAPIDemoActivity extends Activity implements OnItemClickListener {
+class YouTubeAPIDemoActivity extends Activity implements OnItemClickListener {
 
     private List<DemoListViewItem> activities;
 
@@ -78,6 +79,7 @@ public class YouTubeAPIDemoActivity extends Activity implements OnItemClickListe
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(getPackageName(), clickedDemo.className));
         startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
     private final class Demo implements DemoListViewItem {

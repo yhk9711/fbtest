@@ -1,6 +1,5 @@
 package com.example.fbtest;
 
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,19 +15,13 @@ import java.util.Map;
 public class FirebasePost {
 
     public String id;
-
     public String pw;
-
     public String name;
-
     public Long age;
-
     public String gender;
-
     public int step;
-
     public int goal_step;
-
+    public int height;
     public static List<String> friends;
 
     private DatabaseReference mDatabase;
@@ -43,22 +36,16 @@ public class FirebasePost {
 
 
 
-    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, List<String>friends) {
+    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String>friends) {
 
         this.id = id;
-
         this.pw = pw;
-
         this.name = name;
-
         this.age = age;
-
         this.gender = gender;
-
         this.step = step;
-
+        this.height = height;
         this.goal_step = goal_step;
-
         this.friends = friends;
 
     }
@@ -71,21 +58,14 @@ public class FirebasePost {
 
         HashMap<String, Object> result = new HashMap<>();
 
-
         result.put("id", id);
-
         result.put("pw", pw);
-
         result.put("name",name);
-
         result.put("age", age);
-
         result.put("gender", gender);
-
         result.put("step", step);
-
         result.put("goal_step", goal_step);
-
+        result.put("height", height);
         result.put("friends", friends);
 
         return result;
@@ -106,6 +86,10 @@ public class FirebasePost {
         mDatabase.child("MEMBER").child(userId).child("friends").setValue(friend);
     }
 
+    public void WriteHeight(String userId, int Height){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("MEMBER").child(userId).child("height").setValue(Height);
+    }
 
 
 }

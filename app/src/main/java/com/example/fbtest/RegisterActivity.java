@@ -28,43 +28,25 @@ import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
-    //public static String[] strData= new String[100];
-
-    //static List<String> data;
 
     private DatabaseReference mPostReference;
 
     Button btn_Update;
-
     Button btn_Insert;
-
     Button btn_Select;
-
     EditText edit_ID;
-
     EditText edit_PW;
-
     EditText edit_Name;
-
     EditText edit_Age;
-
+    EditText edit_height;
     TextView text_ID;
-
     TextView text_PW;
-
     TextView text_Name;
-
     TextView text_Age;
 
     TextView text_Gender;
-
     CheckBox check_Man;
-
     CheckBox check_Woman;
-
-    //  CheckBox check_ID;
-
-
 
     String ID;
     String PW;
@@ -77,30 +59,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     long age;
 
     String gender = "";
-
     String sort = "id";
-
-
-
+    int height = 0;
 
     ArrayAdapter<String> arrayAdapter;
 
 
 
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
-
     static ArrayList<String> arrayData = new ArrayList<String>();
-
-
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-
-
 
         setContentView(R.layout.activity_register);
 
@@ -115,6 +88,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edit_Name = (EditText) findViewById(R.id.edit_name);
 
         edit_Age = (EditText) findViewById(R.id.edit_age);
+
+        edit_height = (EditText) findViewById(R.id.edit_height);
 
         text_ID = (TextView) findViewById(R.id.text_id);
 
@@ -134,29 +109,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         check_Woman.setOnClickListener(this);
 
-        /*check_ID = (CheckBox) findViewById(R.id.check_userid);
-        check_ID.setOnClickListener(this);
-*/
-
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-
-      /*  ListView listView = (ListView) findViewById(R.id.db_list_view);
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(onClickListener);
-        listView.setOnItemLongClickListener(longClickListener);*/
-
-
-
-        //  check_ID.setChecked(true);
 
         getFirebaseDatabase();
 
-
-
         btn_Insert.setEnabled(true);
-
-        // btn_Update.setEnabled(false);
-
 
     }
 
@@ -172,13 +129,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         edit_Age.setText("");
 
+        edit_height.setText("");
+
         check_Man.setChecked(false);
 
         check_Woman.setChecked(false);
 
         btn_Insert.setEnabled(true);
 
-//        btn_Update.setEnabled(false);
 
     }
 
@@ -206,7 +164,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             edit_Age.setText(tempData[3].trim());
 
-            if(tempData[4].trim().equals("Man")){
+            edit_height.setText(tempData[4].trim());
+
+            if(tempData[5].trim().equals("Man")){
 
                 check_Man.setChecked(true);
 
@@ -244,9 +204,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     public void postFirebaseDatabase(boolean add){
-        //strData[0]=ID;
-        //List<String> listData = new ArrayList<String>();
-        //listData = Arrays.asList(strData);
 
         friends.add(ID);
         FirebasePost.friends=friends;
@@ -260,8 +217,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(add){
 
-            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, friends);
-
+            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends);
             postValues = post.toMap();
 
         }
@@ -269,10 +225,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         childUpdates.put("/MEMBER/" + ID, postValues);
 
         mPostReference.updateChildren(childUpdates);
-
-
     }
-
 
 
     public void getFirebaseDatabase(){
@@ -295,17 +248,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     FirebasePost get = postSnapshot.getValue(FirebasePost.class);
 
-                    String[] info = {get.id, get.pw, get.name, String.valueOf(get.age), get.gender, String.valueOf(get.step), String.valueOf(get.goal_step)};
+                    String[] info = {get.id, get.pw, get.name, String.valueOf(get.age), get.gender, String.valueOf(get.step), String.valueOf(get.goal_step), String.valueOf(get.height)};
 
-                    //     String Result = setTextLength(info[0],10) + setTextLength(info[1],10) + setTextLength(info[2],10) + setTextLength(info[3],10) +  setTextLength(info[4],10);
-
-                    //    arrayData.add(Result);
 
                     arrayIndex.add(key);
 
                     Log.d("getFirebaseDatabase", "key: " + key);
 
-                    Log.d("getFirebaseDatabase", "info: " + info[0] + info[1] + info[2] + info[3] + info[4] + info[5] + info[6]);
+                    Log.d("getFirebaseDatabase", "info: " + info[0] + info[1] + info[2] + info[3] + info[4] + info[5] + info[6] + info[7]);
 
                 }
 
@@ -330,16 +280,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         };
 
         Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("MEMBER").orderByChild(sort);
-
         sortbyAge.addListenerForSingleValueEvent(postListener);
 
     }
 
 
-
-
     @Override
-
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -354,55 +300,49 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 age = Long.parseLong(edit_Age.getText().toString());
 
+                height = Integer.parseInt(edit_height.getText().toString());
+
                 if(!IsExistID()){
 
                     postFirebaseDatabase(true);
-
                     getFirebaseDatabase();
 
                     setInsertMode();
                     Toast.makeText(getApplicationContext(),"회원가입에 성공하셨습니다.",Toast.LENGTH_LONG).show();
 
-                }else{
-
+                } else{
                     Toast.makeText(RegisterActivity.this, "이미 존재하는 ID 입니다. 다른 ID로 설정해주세요.", Toast.LENGTH_LONG).show();
-
                 }
 
                 edit_ID.requestFocus();
-
                 edit_ID.setCursorVisible(true);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
-
                 break;
-
-
-
 
             case R.id.check_man:
 
                 check_Woman.setChecked(false);
-
                 gender = "남";
-
                 break;
 
 
-
             case R.id.check_woman:
-
                 check_Man.setChecked(false);
-
                 gender = "여";
-
                 break;
 
 
         }
-        //Map<String, Object>taskMap = new HashMap<String, Object>();
-        //taskMap.put("")
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.fbtest;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,19 +23,20 @@ import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
-
-
-
     private DatabaseReference databaseReference;
     EditText checkId;
     EditText checkpw;
     Button login;
     Button register;
+    Button gps;
     String pass;
     String loginId, loginPwd;
     String dt_id;
     String step_num;
     String goal_step;
+    public static String nowmyid;
+    public static int height;
+    String sheight;
 
     @Override
 
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                             pass = map.get("pw");
                             step_num = String.valueOf(map.get("step"));
 
-
                             Log.d("password", pass);
                             Log.d("step", step_num);
                         }
@@ -82,16 +81,20 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, loginId +"님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
                             Log.d("자동로그인 성공함",pass);
                             goal_step= String.valueOf(map.get("goal_step"));
+                            sheight= String.valueOf(map.get("height"));
+
                             Intent intent = new Intent(MainActivity.this, PedoActivity.class);
                             intent.putExtra("id", dt_id);
                             intent.putExtra("step", step_num);
                             intent.putExtra("goal_step", goal_step);
+                            intent.putExtra("height",sheight);
                             intent.putExtra("name", map.get("name"));
+                            nowmyid = dt_id;
                             startActivity(intent);
+                            overridePendingTransition(0, 0);
                             finish();
                         }
                     }
-                    //Toast.makeText(getApplicationContext(),"존재하지 않는 아이디이거나 비밀번호를 잘 못 입력하셨습니다.",Toast.LENGTH_LONG).show();
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -121,35 +124,30 @@ public class MainActivity extends AppCompatActivity {
                                 pass = map.get("pw");
                                 step_num = String.valueOf(map.get("step"));
                                 goal_step= String.valueOf(map.get("goal_step"));
-
+                                sheight =String.valueOf(map.get("height"));
                                 Log.d("password", pass);
                                 if(pass.equals(checkpw.getText().toString()))
                                 {
                                     SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
-                                    //아이디가 '부르곰'이고 비밀번호가 '네이버'일 경우 SharedPreferences.Editor를 통해
-                                    //auto의 loginId와 loginPwd에 값을 저장해 줍니다.
+                                    //아이디가 일치하고 비밀번호가 일치할 경우 SharedPreferences.Editor를 통해 auto의 loginId와 loginPwd에 값을 저장.
                                     SharedPreferences.Editor autoLogin = auto.edit();
                                     autoLogin.putString("inputId", checkId.getText().toString());
                                     autoLogin.putString("inputPwd", checkpw.getText().toString());
 
-                                    //꼭 commit()을 해줘야 값이 저장됩니다 ㅎㅎ
+                                    //commit()으로 값 저장
                                     autoLogin.commit();
                                     Toast.makeText(getApplicationContext(), "로그인에 성공하셨습니다.", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), PedoActivity.class);
+                                    nowmyid = dt_id;
                                     intent.putExtra("id", dt_id);
                                     intent.putExtra("step", step_num);
                                     intent.putExtra("goal_step", goal_step);
+                                    intent.putExtra("height", sheight);
                                     intent.putExtra("name", map.get("name"));
-//                                    Intent intent2 = new Intent(getApplicationContext(), com.example.lwfb.RealService.class);
-//                                    intent.putExtra("id", dt_id);
-//                                    intent.putExtra("step", step_num);
-                                    startActivity(intent);
-                                    //Intent theIntent = new Intent(this, PedoActivity.class);
 
-                                    //startActivity(theIntent);
-                                    //Map<String, Object> taskmap = new HashMap<String, Object>;
-                                    //taskmap.put("")
-                                    //finish();
+                                    startActivity(intent);
+                                    overridePendingTransition(0, 0);
+
                                     return;
                                 }
 
@@ -168,11 +166,41 @@ public class MainActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), com.example.fbtest.RegisterActivity.class);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        gps = (Button)findViewById(R.id.gps);
+        gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), com.example.fbtest.GPSActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
 
 
+
+    }
+
+    //뒤로가기 2번 클릭 시 종료
+    long time = 0; //뒤로가기 버튼이 클릭된 시간
+
+    @Override
+    public void onBackPressed() {
+        //2초 이내에 뒤로가기 버튼을 재 클릭 시 앱 종료
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis();
+            Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() - time < 2000) {
+
+            finishAffinity();
+            //finish();
+            System.runFinalization();
+            System.exit(0);
+        }
     }
 }

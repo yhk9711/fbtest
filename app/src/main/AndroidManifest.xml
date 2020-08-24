@@ -2,47 +2,59 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fbtest">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="Android.permission.WRITE_SETTINGS" ></uses-permission>
+    <uses-permission android:name="Android.permission.CHANGE_CONFIGURATION" ></uses-permission>
+    <uses-permission android:name="Android.permission.MODIFY_AUDIO_SETTINGS" ></uses-permission>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="lets_walk"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
-        <activity android:name=".SplashActivity">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAzsHvGAdwLr1RbVGPF1llQWJK6hiFLbcE" />
+
+        <activity android:name=".SplashActivity">
             <!-- 시작 액티비티를 스플래시로 변경. -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity
             android:name=".RegisterActivity"
             android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".PedoActivity"
             android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".MyInfo"
             android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustResize" />
-
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".NoticeActivity"
             android:screenOrientation="unspecified"
@@ -55,7 +67,7 @@
         <activity
             android:name=".FindFriendActivity"
             android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".HomeTrainActivity"
             android:screenOrientation="unspecified"
@@ -70,19 +82,28 @@
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
-
         <activity
             android:name=".MediActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
+
         <activity
             android:name=".LowActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".GPSActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+
         <activity
             android:name="com.example.fbtest.YouTubeAPIDemoActivity">
+
             <meta-data android:name="@string/isLaunchableActivity" android:value="false"/>
         </activity>
 
@@ -93,6 +114,26 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.enspert.app.alarms.ALARM_ALERT" />
+            </intent-filter>
+        </receiver>
+
+        <!--        <service-->
+        <!--            android:name=".RestartService"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="true" />-->
+
+        <!--        <receiver android:name=".AlarmRecever"/>-->
+        <!--        <receiver-->
+        <!--            android:name=".BootReceiver"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="false" >-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
     </application>
 
 </manifest>
