@@ -98,7 +98,7 @@
             android:windowSoftInputMode="adjustResize"></activity>
 
         <activity
-            android:name=".GPSActivity"
+            android:name=".MapsActivity"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>

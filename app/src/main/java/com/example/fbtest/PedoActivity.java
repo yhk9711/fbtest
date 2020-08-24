@@ -309,6 +309,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
         Button friendlist = (Button) findViewById(R.id.friendlist);
         Button notice = (Button) findViewById(R.id.notice);
         Button hometraining = (Button) findViewById(R.id.hometraining);
+        Button maps = (Button) findViewById(R.id.maps);
         TextView name = (TextView) findViewById(R.id.nameofuser);
         name.setText("" + my_name + " 님");
 
@@ -394,6 +395,22 @@ public class PedoActivity extends Activity implements SensorEventListener {
                 startActivity(intent);
             }
         });
+        maps.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PedoActivity.this, MapsActivity.class);
+                String id_value2 = null;
+                Intent i2 = getIntent();
+                i2.getStringExtra("id");
+                Bundle bundle2 = getIntent().getExtras();
+                if (bundle2 != null) {
+                    id_value2 = bundle2.getString("id");
+                }
+                intent.putExtra("id", id_value2);
+                intent.putExtra("name", user_name);
+                startActivity(intent);
+            }
+        });
 
         new AlarmHATT(getApplicationContext()).Alarm();
 
@@ -404,28 +421,20 @@ public class PedoActivity extends Activity implements SensorEventListener {
             this.context=context;
         }
         public void Alarm() {
+            AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(PedoActivity.this, AlarmReceiver.class);
 
+            PendingIntent sender = PendingIntent.getBroadcast(PedoActivity.this, 0, intent, 0);
 
-                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(PedoActivity.this, AlarmReceiver.class);
+            Calendar calendar = Calendar.getInstance();
+            //알람시간 calendar에 set해주기
 
-                PendingIntent sender = PendingIntent.getBroadcast(PedoActivity.this, 0, intent, 0);
-
-                Calendar calendar = Calendar.getInstance();
-                //알람시간 calendar에 set해주기
-
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
-            calendar.set(Calendar.MINUTE, 13);
-            //   calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 17, 55, 00);
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 18, 16, 0);
 
             //알람 예약
-            //  am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), (24*60*60*1000),sender);
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
-            }
-            //알람 예약
-
-
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+        }
     }
 
     @Override
@@ -476,7 +485,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
             sensorManager.registerListener(this, accelerormeterSensor,
                     SensorManager.SENSOR_DELAY_GAME);
             IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction("com.example.lwfb");
+            intentFilter.addAction("com.example.fbtest");
             registerReceiver(broadcastReceiver, intentFilter);
             Log.e("페도의 ", "onstart입니다");
 

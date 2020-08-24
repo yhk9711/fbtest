@@ -23,12 +23,13 @@ import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
+
     private DatabaseReference databaseReference;
     EditText checkId;
     EditText checkpw;
     Button login;
     Button register;
-    Button gps;
+    Button map;
     String pass;
     String loginId, loginPwd;
     String dt_id;
@@ -171,21 +172,19 @@ public class MainActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
             }
         });
-
-        gps = (Button)findViewById(R.id.gps);
-        gps.setOnClickListener(new View.OnClickListener() {
+   /*     map = (Button)findViewById(R.id.map);
+        map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), com.example.fbtest.GPSActivity.class);
+                Intent intent = new Intent(getApplicationContext(), com.example.fbtest.MapsActivity.class);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
         });
-
+*/
 
 
     }
-
     //뒤로가기 2번 클릭 시 종료
     long time = 0; //뒤로가기 버튼이 클릭된 시간
 

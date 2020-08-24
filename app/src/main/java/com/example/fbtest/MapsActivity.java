@@ -1,59 +1,10 @@
 package com.example.fbtest;
-/*
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-
-
-public class GPSActivity extends AppCompatActivity
-        implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-
-        mMap = googleMap;
-
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-    }
-
-}*/
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -67,7 +18,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -92,13 +51,16 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class GPSActivity extends AppCompatActivity
+public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback{
 
 
+    private DrawerLayout drawerLayout;
+    private View drawerView;
     private GoogleMap mMap;
     private Marker currentMarker = null;
+
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -121,6 +83,7 @@ public class GPSActivity extends AppCompatActivity
     Marker addedMarker = null;
     int tracking = 0;
 
+
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
@@ -131,14 +94,80 @@ public class GPSActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("들어와짐","들어와");
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_gps);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerView = (View) findViewById(R.id.drawerView);
+        drawerLayout.setDrawerListener(listener);
+        TextView name = (TextView) findViewById(R.id.nameofuser);
+        name.setText("" + PedoActivity.my_name + " 님");
+        //drawerLayout.openDrawer(drawerView);
+        Button logout = (Button) findViewById(R.id.button);
+        Button friendlist = (Button) findViewById(R.id.friendlist);
+        Button notice = (Button) findViewById(R.id.notice);
+        Button myInfo = (Button) findViewById(R.id.myinfo);
+        Button hometrain = (Button) findViewById(R.id.hometraining);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //SharedPreferences에 저장된 값들을 로그아웃 버튼을 누르면 삭제하기 위해 SharedPreferences를 불러옴
+                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = auto.edit();
+                //auto에 들어있는 모든 정보를 기기에서 지움
+                editor.clear();
+                editor.commit();
+                Toast.makeText(MapsActivity.this, "로그아웃.", Toast.LENGTH_SHORT).show();
+                finish();
 
-        mLayout = findViewById(R.id.layout_main);
+            }
+        });
+        myInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, MyInfo.class);
+
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        friendlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, com.example.fbtest.FriendListActivity.class);
+
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+        notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, NoticeActivity.class);
+
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+        hometrain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, HomeTrainActivity.class);
+
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        mLayout = findViewById(R.id.drawer_layout);
 
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -158,7 +187,6 @@ public class GPSActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         final Button button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +200,31 @@ public class GPSActivity extends AppCompatActivity
                 else button.setText("Start");
             }
         });
+
+
+
     }
+
+    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+
+        @Override
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+        }
+
+        @Override
+        public void onDrawerOpened(@NonNull View drawerView) {
+        }
+
+        @Override
+        public void onDrawerClosed(@NonNull View drawerView) {
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+        }
+        //drawerLayout.openDrawer(drawerView);
+    };
+
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -187,7 +239,7 @@ public class GPSActivity extends AppCompatActivity
             @Override
             public void onMapLongClick(final LatLng latLng) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(GPSActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 View view = inflater.inflate(R.layout.dialog_place_info, null);
                 builder.setView(view);
@@ -200,7 +252,7 @@ public class GPSActivity extends AppCompatActivity
                     public void onClick(View v) {
                         String string_placeTitle = editText_placeTitle.getText().toString();
                         String string_placeDesc = editText_placeDesc.getText().toString();
-                        Toast.makeText(GPSActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
 
 
                         //맵을 클릭시 현재 위치에 마커 추가
@@ -260,7 +312,7 @@ public class GPSActivity extends AppCompatActivity
                     public void onClick(View view) {
 
                         // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                        ActivityCompat.requestPermissions( GPSActivity.this, REQUIRED_PERMISSIONS,
+                        ActivityCompat.requestPermissions( MapsActivity.this, REQUIRED_PERMISSIONS,
                                 PERMISSIONS_REQUEST_CODE);
                     }
                 }).show();
@@ -316,7 +368,7 @@ public class GPSActivity extends AppCompatActivity
 
                     if ((distance < radius) && (!previousPosition.equals(currentPosition))) {
 
-                        Toast.makeText(GPSActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -595,7 +647,7 @@ public class GPSActivity extends AppCompatActivity
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(GPSActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하실래요?");
@@ -641,6 +693,14 @@ public class GPSActivity extends AppCompatActivity
 
                 break;
         }
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), PedoActivity.class);
+        intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
 

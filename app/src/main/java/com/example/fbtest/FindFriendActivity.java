@@ -1,5 +1,4 @@
 package com.example.fbtest;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +59,7 @@ public class FindFriendActivity extends AppCompatActivity {
         Button notice = (Button) findViewById(R.id.notice);
         Button hometraining = (Button) findViewById(R.id.hometraining);
         Button friendlist = (Button) findViewById(R.id.friendlist);
+        Button maps = (Button) findViewById(R.id.maps);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +101,15 @@ public class FindFriendActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
             }
         });
+        maps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FindFriendActivity.this, MapsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
 
         find.setOnClickListener(new View.OnClickListener() {
             @Override
