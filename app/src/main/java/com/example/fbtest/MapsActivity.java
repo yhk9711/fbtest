@@ -61,6 +61,12 @@ public class MapsActivity extends AppCompatActivity
     private GoogleMap mMap;
     private Marker currentMarker = null;
 
+    private TextView kmView;
+    private TextView kcalView;
+    private TextView cntView;
+
+    public static int height = PedoActivity.height;
+
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -129,6 +135,7 @@ public class MapsActivity extends AppCompatActivity
 
             }
         });
+
         myInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -346,7 +353,10 @@ public class MapsActivity extends AppCompatActivity
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
 
+         //   setContentView(R.layout.activity_gps);
+
             List<Location> locationList = locationResult.getLocations();
+
 
             if (locationList.size() > 0) {
                 location = locationList.get(locationList.size() - 1);
@@ -367,8 +377,17 @@ public class MapsActivity extends AppCompatActivity
                     double distance = SphericalUtil.computeDistanceBetween(currentPosition, addedMarker.getPosition());
 
                     if ((distance < radius) && (!previousPosition.equals(currentPosition))) {
+                        kcalView = (TextView) findViewById(R.id.kcnum);
+                        kmView = (TextView) findViewById(R.id.kmnum);
+                        cntView = (TextView) findViewById(R.id.cntnum);
 
-                        Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
+                        kmView.setText("" + (int)distance);
+                        String count = String.format("%.1f",((int)distance/(height*0.37*0.01)));
+                        cntView.setText("" + count);
+                        String kcal1 = String.format("%.1f",((int)distance/(height*0.37*0.01*30)));
+                        kcalView.setText("" + kcal1);
+
+                     //   Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
                     }
                 }
 
