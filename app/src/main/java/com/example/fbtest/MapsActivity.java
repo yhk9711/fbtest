@@ -250,29 +250,35 @@ public class MapsActivity extends AppCompatActivity
                 LayoutInflater inflater = getLayoutInflater();
                 View view = inflater.inflate(R.layout.dialog_place_info, null);
                 builder.setView(view);
-                final Button button_submit = (Button) view.findViewById(R.id.button_dialog_placeInfo);
-                final EditText editText_placeTitle = (EditText) view.findViewById(R.id.editText_dialog_placeTitle);
-                final EditText editText_placeDesc = (EditText) view.findViewById(R.id.editText_dialog_placeDesc);
+                final Button button_submit = (Button) view.findViewById(R.id.button_dialog_placeyes);
+          //      final EditText editText_placeTitle = (EditText) view.findViewById(R.id.editText_dialog_placeTitle);
+          //      final EditText editText_placeDesc = (EditText) view.findViewById(R.id.editText_dialog_placeDesc);
+                final Button button_no = (Button) view.findViewById(R.id.button_dialog_placeno);
 
                 final AlertDialog dialog = builder.create();
                 button_submit.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        String string_placeTitle = editText_placeTitle.getText().toString();
-                        String string_placeDesc = editText_placeDesc.getText().toString();
-                        Toast.makeText(MapsActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
+            //            String string_placeTitle = editText_placeTitle.getText().toString();
+            //            String string_placeDesc = editText_placeDesc.getText().toString();
+            //            Toast.makeText(MapsActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
 
 
                         //맵을 클릭시 현재 위치에 마커 추가
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
-                        markerOptions.title(string_placeTitle);
-                        markerOptions.snippet(string_placeDesc);
+               //         markerOptions.title(string_placeTitle);
+                //        markerOptions.snippet(string_placeDesc);
                         markerOptions.draggable(true);
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
                         if ( addedMarker != null ) mMap.clear();
                         addedMarker = mMap.addMarker(markerOptions);
 
+                        dialog.dismiss();
+                    }
+                });
+                button_no.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
@@ -382,9 +388,9 @@ public class MapsActivity extends AppCompatActivity
                         cntView = (TextView) findViewById(R.id.cntnum);
 
                         kmView.setText("" + (int)distance);
-                        String count = String.format("%.1f",((int)distance/(height*0.37*0.01)));
+                        String count = String.format("%.0f",((int)distance/(height*0.37*0.01)));
                         cntView.setText("" + count);
-                        String kcal1 = String.format("%.1f",((int)distance/(height*0.37*0.01*30)));
+                        String kcal1 = String.format("%.0f",((int)distance/(height*0.37*0.01*30)));
                         kcalView.setText("" + kcal1);
 
                      //   Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
@@ -669,7 +675,7 @@ public class MapsActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
+                + "위치 설정을 수정하시겠습니까3?");
         builder.setCancelable(true);
         builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
             @Override
