@@ -412,7 +412,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
             }
         });
 
-        new AlarmHATT(getApplicationContext()).Alarm();
+      //  new AlarmHATT(getApplicationContext()).Alarm();
 
     }
     public class AlarmHATT {
@@ -427,13 +427,17 @@ public class PedoActivity extends Activity implements SensorEventListener {
             PendingIntent sender = PendingIntent.getBroadcast(PedoActivity.this, 0, intent, 0);
 
             Calendar calendar = Calendar.getInstance();
+         //   calendar.setTimeInMillis(System.currentTimeMillis());
+         //   calendar.set(Calendar.HOUR_OF_DAY,18);
+         //   calendar.set(Calendar.MINUTE,43);
             //알람시간 calendar에 set해주기
 
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 16, 47, 0);
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 18, 54, 0);
 
             //알람 예약
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+            Log.d("페도!!!!!!!!!", "걸음수 바뀜ㅁㅁㅁㅁㅁ");
         }
     }
 
@@ -488,6 +492,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
             intentFilter.addAction("com.example.fbtest");
             registerReceiver(broadcastReceiver, intentFilter);
             Log.e("페도의 ", "onstart입니다");
+            new AlarmHATT(getApplicationContext()).Alarm();
 
             kcal = cnt / 30;
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

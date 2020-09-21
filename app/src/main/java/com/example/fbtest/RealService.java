@@ -79,6 +79,7 @@ public class RealService extends Service implements SensorEventListener {
     public class AlarmHATT {
         private Context context;
         public AlarmHATT(Context context) {
+
             this.context=context;
         }
         public void Alarm() {
@@ -88,13 +89,17 @@ public class RealService extends Service implements SensorEventListener {
             PendingIntent sender = PendingIntent.getBroadcast(RealService.this, 0, intent, 0);
 
             Calendar calendar = Calendar.getInstance();
+         //   calendar.setTimeInMillis(System.currentTimeMillis());
+          //  calendar.set(Calendar.HOUR_OF_DAY,18);
+          //  calendar.set(Calendar.MINUTE,43);
             //알람시간 calendar에 set해주기
 
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 16, 47, 0);
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 18, 54, 0);
 
             //알람 예약
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+            Log.d("뤼얼ㄹㄹㄹ!!!!!!!", "걸음수 바뀜ㅁㅁㅁㅁㅁ");
 
         }
     }
@@ -181,7 +186,7 @@ public class RealService extends Service implements SensorEventListener {
 
                     user.WriteStep(id_value, PedoActivity.cnt);
                     Intent intent1 = new Intent();
-                    intent1.setAction("com.example.lwfb");
+                    intent1.setAction("com.example.fbtest");
 
                     String pass = Integer.toString(PedoActivity.cnt);
                     intent1.putExtra("DATAPASSED", pass);
@@ -238,7 +243,7 @@ public class RealService extends Service implements SensorEventListener {
 
     protected void onHandleIntent(Intent intent) {
         Intent intent1 = new Intent();
-        intent1.setAction("com.example.lwfb");
+        intent1.setAction("com.example.fbtest");
         intent1.putExtra("DATAPASSED", PedoActivity.cnt);
         sendBroadcast(intent1);
     }
