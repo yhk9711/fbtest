@@ -15,7 +15,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PedoActivity.cnt=0;
         FirebasePost user = new FirebasePost();
         user.WriteStep(PedoActivity.my_id, PedoActivity.cnt);
-        Log.d("알람서비스!!!!!!!!!", "걸음수 바뀜ㅁㅁㅁㅁㅁ");
+        Log.e("알람서비스!!!!!!!!!", "걸음수 바뀜ㅁㅁㅁㅁㅁ");
         //Toast.makeText(context.getApplicationContext(),"alarm!", Toast.LENGTH_LONG).show();
     }
 
