@@ -22,6 +22,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MyInfo extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -33,8 +35,8 @@ public class MyInfo extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
 
     static ArrayList<String> arrayIndex = new ArrayList<String>();
-
     static ArrayList<String> arrayData = new ArrayList<String>();
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
