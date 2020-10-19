@@ -21,9 +21,13 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyInfo extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -177,16 +181,55 @@ public class MyInfo extends AppCompatActivity {
         NoOfEmp.add(new BarEntry(1239f, 4));
         NoOfEmp.add(new BarEntry(6789f, 5));
         NoOfEmp.add(new BarEntry(10500f, 6));
+        NoOfEmp.add(new BarEntry(10500f, 7));
+        NoOfEmp.add(new BarEntry(10500f, 8));
+        NoOfEmp.add(new BarEntry(10500f, 9));
+//        NoOfEmp.add(new BarEntry(1050f, 13));
+//        NoOfEmp.add(new BarEntry(1050f, 14));
+//        NoOfEmp.add(new BarEntry(1050f, 15));
+//        NoOfEmp.add(new BarEntry(1050f, 16));
+//        NoOfEmp.add(new BarEntry(1050f, 17));
+
+
+
 
         ArrayList year = new ArrayList();
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
 
-        year.add("5/08");
+        String weekDay = weekdayFormat.format(currentTime);
+        //String year = yearFormat.format(currentTime);
+        String month = monthFormat.format(currentTime);
+        String day = dayFormat.format(currentTime);
+
+        year.add(weekDay);
         year.add("5/09");
         year.add("5/10");
         year.add("5/11");
         year.add("5/12");
         year.add("5/13");
         year.add("5/14");
+        year.add("5/14");
+        year.add("5/14");
+        year.add("5/14");
+        year.add("5/14");
+        year.add("5/14");
+//        year.add("5/14");
+//        year.add("5/14");
+//        year.add("5/14");
+//        year.add("5/14");
+//        year.add("5/14");
+//        year.add("5/14");
+
+
+
+
+
+
+
         BarDataSet bardataset = new BarDataSet(NoOfEmp, "");
         //chart.animateY(5000);
         BarData data = new BarData(year, bardataset);      // MPAndroidChart v3.X 오류 발생

@@ -1,6 +1,4 @@
 package com.example.fbtest;
-
-
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.Notification;
@@ -88,8 +86,8 @@ public class RealService extends Service implements SensorEventListener {
         //자정 시간
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 27);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 13);
         calendar.set(Calendar.SECOND, 0);
 
         long aTime = System.currentTimeMillis();
@@ -216,7 +214,7 @@ public class RealService extends Service implements SensorEventListener {
 
                     user.WriteStep(id_value, PedoActivity.cnt);
                     Intent intent1 = new Intent();
-                    intent1.setAction("com.example.fbtest");
+                    intent1.setAction("com.example.lets_walk_firebase");
 
                     String pass = Integer.toString(PedoActivity.cnt);
                     intent1.putExtra("DATAPASSED", pass);

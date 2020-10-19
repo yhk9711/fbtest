@@ -44,8 +44,10 @@ import java.util.Map;
 public class PedoActivity extends Activity implements SensorEventListener {
 
     public static List<String> friends = new ArrayList<String>();
-    static public List<Integer> steps = Arrays.asList(0,0,0,0,0,0,0);
+    //public static List<Integer> cntlist= new ArrayList<>();
+    public static List<Integer> cntlist= new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0));
     private static int ONE_MINUTE = 5626;
+    public static int index=0;
 
 
 
@@ -61,7 +63,6 @@ public class PedoActivity extends Activity implements SensorEventListener {
     public static int goal = 10000;
     public static String my_id;
     public static String my_name;
-
 
     private TextView fView;
     private TextView kView;
@@ -91,7 +92,6 @@ public class PedoActivity extends Activity implements SensorEventListener {
     public static String main_id;
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedo);
 
@@ -148,6 +148,14 @@ public class PedoActivity extends Activity implements SensorEventListener {
             my_name = bundle22.getString("name");
             user_name = my_name;
         }
+        Intent i45 = getIntent();
+        i45.getStringExtra("index");
+        Bundle bundle45 = getIntent().getExtras();
+        if (bundle45 != null) {
+            index = Integer.valueOf(bundle.getString("index"));
+            Log.d("index값 페도에서 가져옴", String.valueOf(index));
+
+        }
 
         //String main_id = null;
         Intent i44 = getIntent();
@@ -164,6 +172,26 @@ public class PedoActivity extends Activity implements SensorEventListener {
         Log.e("Pedo의 onCreate에서 cnt", String.valueOf(cnt));
         //goal = Integer.parseInt(goal_step);
         kcal = cnt / 30;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("MEMBER").child(PedoActivity.my_id);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Map<String, List<Integer>> map3 = (Map) dataSnapshot.getValue();
+
+                List<Integer> stplist = map3.get("steps");
+                Log.e("stplist", String.valueOf(stplist));
+                cntlist=stplist;
+                Log.e("cntlistreg", String.valueOf(RegisterActivity.cntlistreg));
+                Log.e("cntlist", String.valueOf(cntlist));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("CALORIE");
@@ -417,6 +445,7 @@ public class PedoActivity extends Activity implements SensorEventListener {
 
         resetAlarm(getApplicationContext());
         //  new AlarmHATT(getApplicationContext()).Alarm();
+        cntlist.set(index, cnt);
 
     }
     /*public class AlarmHATT {
@@ -451,8 +480,8 @@ public class PedoActivity extends Activity implements SensorEventListener {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 27);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 13);
         calendar.set(Calendar.SECOND, 0);
 
         long aTime = System.currentTimeMillis();
@@ -1057,7 +1086,10 @@ public class PedoActivity extends Activity implements SensorEventListener {
 
                 FirebasePost user = new FirebasePost();
                 user.WriteStep(my_id, cnt);
-
+                cntlist.set(index, cnt);
+//                user.WriteSteps(my_id, RegisterActivity.cntlistreg);
+                user.WriteSteps(my_id);
+                Log.d("pedo에서writesteps",String.valueOf(cntlist));
                 Intent intent2 = new Intent(getApplicationContext(), RealService.class);
                 intent2.putExtra("id", my_id);
 

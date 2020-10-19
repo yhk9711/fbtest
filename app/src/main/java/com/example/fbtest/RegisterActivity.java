@@ -1,6 +1,4 @@
 package com.example.fbtest;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,10 +52,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     String name;
     int step = 0;
     int goal_step = 10000;
+    int index = 0;
 
     public List<String> friends = new ArrayList<String>();
-   // public List<Integer> steps = new ArrayList<Integer>();
-    static public List<Integer> steps = Arrays.asList(0,0,0,0,0,0,0);
+    public List<Integer> steps = new ArrayList<>();
+    public static List<Integer> cntlistreg= new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0));
 
     long age;
 
@@ -210,9 +209,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         friends.add(ID);
         FirebasePost.friends=friends;
-        FirebasePost.steps=steps;
         Log.d("regis.fr", String.valueOf(friends));
-
+        for (int a= 0 ; a<7; a++){
+            steps.add(0);
+        }
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -221,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(add){
 
-            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps);
+            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps, index);
             postValues = post.toMap();
 
         }
