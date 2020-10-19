@@ -36,6 +36,7 @@ public class MyInfo extends AppCompatActivity {
     private EditText edit_height;
     Button btn_changed;
     Button btn_changed_height;
+    Button statisticsBtn;
     ArrayAdapter<String> arrayAdapter;
 
     static ArrayList<String> arrayIndex = new ArrayList<String>();
@@ -46,6 +47,7 @@ public class MyInfo extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
+        statisticsBtn = (Button) findViewById(R.id.statistics_button);
         btn_changed = (Button) findViewById(R.id.btn_changed);
         edit_goal = (EditText) findViewById(R.id.edit_goal);
         btn_changed.setEnabled(true);
@@ -105,6 +107,13 @@ public class MyInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyInfo.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+        statisticsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MonthActivity.class);
                 startActivity(intent);
             }
         });

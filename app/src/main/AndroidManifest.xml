@@ -103,6 +103,24 @@
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize"></activity>
 
+        <activity
+            android:name=".MonthActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".PickerActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".StatisticsActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize"></activity>
+
 
         <activity
             android:name="com.example.fbtest.YouTubeAPIDemoActivity">
