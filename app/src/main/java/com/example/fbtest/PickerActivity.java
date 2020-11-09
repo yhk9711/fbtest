@@ -1,6 +1,4 @@
 package com.example.fbtest;
-
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -11,15 +9,15 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 
 import androidx.fragment.app.DialogFragment;
+
 import java.util.Calendar;
 
 public class PickerActivity extends DialogFragment {
-
-    private static final int MAX_YEAR = 2025;
-    private static final int MIN_YEAR = 2020;
-
     private DatePickerDialog.OnDateSetListener listener;
     public Calendar cal = Calendar.getInstance();
+
+    private int MAX_YEAR = cal.get(Calendar.YEAR);
+    private int MIN_YEAR = cal.get(Calendar.YEAR)-10;
 
     public void setListener(DatePickerDialog.OnDateSetListener listener) {
         this.listener = listener;
@@ -52,6 +50,9 @@ public class PickerActivity extends DialogFragment {
             @Override
             public void onClick(View v) {
                 listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
+                MonthActivity.sday=0;
+                MonthActivity.smonth=monthPicker.getValue();
+                MonthActivity.syear=yearPicker.getValue();
                 PickerActivity.this.getDialog().cancel();
             }
         });

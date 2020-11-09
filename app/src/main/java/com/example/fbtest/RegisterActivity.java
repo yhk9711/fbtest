@@ -32,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     Button btn_Update;
     Button btn_Insert;
-    Button btn_Select;
     EditText edit_ID;
     EditText edit_PW;
     EditText edit_Name;
@@ -56,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     public List<String> friends = new ArrayList<String>();
     public List<Integer> steps = new ArrayList<>();
+    public List<Integer> paststeps = new ArrayList<>();
     public static List<Integer> cntlistreg= new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0));
 
     long age;
@@ -213,6 +213,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         for (int a= 0 ; a<7; a++){
             steps.add(0);
         }
+        paststeps.add(0);
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -221,7 +222,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(add){
 
-            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps, index);
+            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps, index, paststeps);
             postValues = post.toMap();
 
         }

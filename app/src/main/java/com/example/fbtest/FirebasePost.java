@@ -24,6 +24,7 @@ public class FirebasePost {
     public int index;
     public static List<String> friends;
     public static List<Integer> steps;
+    public static List<Integer> paststeps;
     private DatabaseReference mDatabase;
 
 
@@ -34,7 +35,7 @@ public class FirebasePost {
     }
 
 
-    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index) {
+    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index, List<Integer> paststeps) {
 
         this.id = id;
         this.pw = pw;
@@ -46,6 +47,7 @@ public class FirebasePost {
         this.goal_step = goal_step;
         this.friends = friends;
         this.steps = steps;
+        this.paststeps = paststeps;
         this.index =index;
 
     }
@@ -67,6 +69,7 @@ public class FirebasePost {
         result.put("height", height);
         result.put("friends", friends);
         result.put("steps", steps);
+        result.put("paststeps", paststeps);
         result.put("index", index);
         return result;
 
@@ -96,12 +99,18 @@ public class FirebasePost {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("MEMBER").child(userId).child("steps").child(String.valueOf(PedoActivity.index)).setValue(PedoActivity.cnt);
     }
-    //    public void WriteSteps2(String userId, List<Integer> steps) {
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("MEMBER").child(userId).child("steps").setValue(steps);
-//    }
+    public void WriteZeroSteps(String userId, int index, int step){
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("MEMBER").child(userId).child("steps").child(String.valueOf(index)).setValue(step);
+    }
+
     public void WriteIndex(String userId, int index) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("MEMBER").child(userId).child("index").setValue(index);
+    }
+    public void WritePastSteps(String userId, String date) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("MEMBER").child(userId).child("paststeps").child(String.valueOf(date)).setValue(PedoActivity.cnt);
     }
 }
