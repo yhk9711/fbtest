@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -251,25 +250,25 @@ public class MapsActivity extends AppCompatActivity
                 View view = inflater.inflate(R.layout.dialog_place_info, null);
                 builder.setView(view);
                 final Button button_submit = (Button) view.findViewById(R.id.button_dialog_placeyes);
-          //      final EditText editText_placeTitle = (EditText) view.findViewById(R.id.editText_dialog_placeTitle);
-          //      final EditText editText_placeDesc = (EditText) view.findViewById(R.id.editText_dialog_placeDesc);
+                //      final EditText editText_placeTitle = (EditText) view.findViewById(R.id.editText_dialog_placeTitle);
+                //      final EditText editText_placeDesc = (EditText) view.findViewById(R.id.editText_dialog_placeDesc);
                 final Button button_no = (Button) view.findViewById(R.id.button_dialog_placeno);
 
                 final AlertDialog dialog = builder.create();
                 button_submit.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-            //            String string_placeTitle = editText_placeTitle.getText().toString();
-            //            String string_placeDesc = editText_placeDesc.getText().toString();
-            //            Toast.makeText(MapsActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
+                        //            String string_placeTitle = editText_placeTitle.getText().toString();
+                        //            String string_placeDesc = editText_placeDesc.getText().toString();
+                        //            Toast.makeText(MapsActivity.this, string_placeTitle+"\n"+string_placeDesc,Toast.LENGTH_SHORT).show();
 
 
                         //맵을 클릭시 현재 위치에 마커 추가
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
-               //         markerOptions.title(string_placeTitle);
-                //        markerOptions.snippet(string_placeDesc);
+                        //         markerOptions.title(string_placeTitle);
+                        //        markerOptions.snippet(string_placeDesc);
                         markerOptions.draggable(true);
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                         if ( addedMarker != null ) mMap.clear();
                         addedMarker = mMap.addMarker(markerOptions);
@@ -359,7 +358,7 @@ public class MapsActivity extends AppCompatActivity
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
 
-         //   setContentView(R.layout.activity_gps);
+            //   setContentView(R.layout.activity_gps);
 
             List<Location> locationList = locationResult.getLocations();
 
@@ -393,7 +392,7 @@ public class MapsActivity extends AppCompatActivity
                         String kcal1 = String.format("%.0f",((int)distance/(height*0.37*0.01*30)));
                         kcalView.setText("" + kcal1);
 
-                     //   Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
+                        //   Toast.makeText(MapsActivity.this, addedMarker.getTitle() + "까지" + (int) distance + "m 남음", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -571,7 +570,7 @@ public class MapsActivity extends AppCompatActivity
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);

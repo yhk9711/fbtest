@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class HomeTrainActivity extends AppCompatActivity {
-    Button high;
-    Button medi;
-    Button low;
+    ImageButton high;
+    ImageButton medi;
+    ImageButton low;
     private DrawerLayout drawerLayout;
     private View drawerView;
 
@@ -38,7 +39,7 @@ public class HomeTrainActivity extends AppCompatActivity {
         Button myInfo = (Button) findViewById(R.id.myinfo);
         Button maps = (Button) findViewById(R.id.maps);
 
-        high = (Button)findViewById(R.id.high);
+        high = (ImageButton)findViewById(R.id.hard);
         high.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +49,7 @@ public class HomeTrainActivity extends AppCompatActivity {
             }
         });
 
-        medi = (Button)findViewById(R.id.medi);
+        medi = (ImageButton)findViewById(R.id.normal);
         medi.setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +59,7 @@ public class HomeTrainActivity extends AppCompatActivity {
             }
         });
 
-        low = (Button)findViewById(R.id.low);
+        low = (ImageButton)findViewById(R.id.easy);
         low.setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View v) {

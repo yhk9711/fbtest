@@ -1,12 +1,16 @@
 package com.example.fbtest;
+
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -19,10 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
+import java.lang.reflect.Field;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 public class PickerActivity extends DialogFragment {
@@ -31,10 +33,6 @@ public class PickerActivity extends DialogFragment {
 
     private DatabaseReference databaseReference;
 
-
-    private int MAX_YEAR = cal.get(Calendar.YEAR);
-    //private int MIN_YEAR = cal.get(Calendar.YEAR)-10;
-    //private int MIN_YEAR;
     String syear;
     String smonth;
     String sday;
@@ -45,15 +43,15 @@ public class PickerActivity extends DialogFragment {
 
     Button btnConfirm;
     Button btnCancel;
+    Integer regyear;
+    Integer regmonth;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View dialog = inflater.inflate(R.layout.activity_picker, null);
-
-
+        final View dialog = inflater.inflate(R.layout.activity_picker, null);
 
         btnConfirm = dialog.findViewById(R.id.btn_confirm);
         btnCancel = dialog.findViewById(R.id.btn_cancel);
@@ -61,18 +59,22 @@ public class PickerActivity extends DialogFragment {
         final NumberPicker monthPicker = dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = dialog.findViewById(R.id.picker_year);
 
+        setNumberPickerTextColor(monthPicker, Color.rgb(99, 156, 212));
+        setNumberPickerTextColor(yearPicker, Color.rgb(99, 156, 212));
+
+
+        Calendar cal = Calendar.getInstance();
+        final int nowyear = cal.get(Calendar.YEAR);
+        final int nowmonth = cal.get(Calendar.MONTH) + 1;
+
         databaseReference = FirebaseDatabase.getInstance().getReference("MEMBER").child(PedoActivity.my_id);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Map<String, String> map = (Map) dataSnapshot.getValue();
-
-                syear = map.get("year");
-                smonth = map.get("month");
-                sday = map.get("day");
-                Log.e("picker_year", syear);
-
+                Map<String, Integer> map3 = (Map) dataSnapshot.getValue();
+                regyear = Integer.parseInt(String.valueOf(map3.get("year")));
+                regmonth = Integer.parseInt(String.valueOf(map3.get("month")));
             }
 
             @Override
@@ -80,9 +82,6 @@ public class PickerActivity extends DialogFragment {
 
             }
         });
-
-
-
         btnCancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -93,30 +92,36 @@ public class PickerActivity extends DialogFragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
-
-                Date currentTime = Calendar.getInstance().getTime();
-                SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
-                String month = monthFormat.format(currentTime);
+//                listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
 
                 MyInfo.sday=0;
-                MyInfo.smonth=monthPicker.getValue();
-                MyInfo.syear=yearPicker.getValue();
-
-                if(Integer.parseInt(syear) > yearPicker.getValue()){
-                    Toast.makeText(getContext(), "회원님의 가입 년도는 " + syear + "년 입니다. 새로운 날짜를 선택해주세요.", Toast.LENGTH_LONG).show();
-                    PickerActivity.this.getDialog().cancel();
-                } else if(Integer.parseInt(smonth) > monthPicker.getValue()){
-                    Toast.makeText(getContext(), "회원님의 가입 월은 " + smonth + "월 입니다. 새로운 날짜를 선택해주세요.", Toast.LENGTH_LONG).show();
-                    PickerActivity.this.getDialog().cancel();
-                } else if(Integer.parseInt(month) < monthPicker.getValue()){
-                    Toast.makeText(getContext(), "입력하신 날짜는 현재 날짜보다 큽니다. 새로운 날짜를 선택해주세요.", Toast.LENGTH_LONG).show();
-                    PickerActivity.this.getDialog().cancel();
-                } else{
-                    listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
+                if (yearPicker.getValue() < regyear){
+                    System.out.println("가입 전 ");
+                    Toast.makeText(getContext(),"가입 전 날짜입니다. 새로운 날짜를 선택해주십시오. ", Toast.LENGTH_LONG).show();
                     PickerActivity.this.getDialog().cancel();
                 }
-
+                else if ((yearPicker.getValue() == regyear)&& (monthPicker.getValue() < regmonth )){
+                    System.out.println("가입 전 ");
+                    Toast.makeText(getContext(),"가입 전 날짜입니다. 새로운 날짜를 선택해주십시오. ", Toast.LENGTH_LONG).show();
+                    PickerActivity.this.getDialog().cancel();
+                }
+                else if (yearPicker.getValue() > nowyear){
+                    System.out.println("미래  ");
+                    Toast.makeText(getContext(),"현재 시간보다 미래의 날짜입니다. 새로운 날짜를 선택해주십시오. ", Toast.LENGTH_LONG).show();
+                    PickerActivity.this.getDialog().cancel();
+                }
+                else if ((yearPicker.getValue() == nowyear)&& (monthPicker.getValue() > nowmonth )){
+                    System.out.println("미래 ");
+                    Toast.makeText(getContext(),"현재 시간보다 미래의 날짜입니다. 새로운 날짜를 선택해주십시오. ", Toast.LENGTH_LONG).show();
+                    PickerActivity.this.getDialog().cancel();
+                }
+                else {
+                    listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
+                    System.out.println("이 안에 드러옴? ");
+                    MyInfo.smonth=monthPicker.getValue();
+                    MyInfo.syear=yearPicker.getValue();
+                    PickerActivity.this.getDialog().cancel();
+                }
             }
         });
 
@@ -126,11 +131,61 @@ public class PickerActivity extends DialogFragment {
 
         int year = cal.get(Calendar.YEAR);
         yearPicker.setMinValue(2015);
-        yearPicker.setMaxValue(MAX_YEAR);
+        yearPicker.setMaxValue(2023);
         yearPicker.setValue(year);
 
         builder.setView(dialog);
-
+//
         return builder.create();
+    }
+
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
+
+        final int count = numberPicker.getChildCount();
+
+
+
+        for (int i=0;i<count;i++) {
+
+            View child = numberPicker.getChildAt(i);
+
+            if (child instanceof EditText) {
+
+                try {
+
+                    Field selectorWheelPaintField = numberPicker.getClass()
+
+                            .getDeclaredField("mSelectorWheelPaint");
+
+                    selectorWheelPaintField.setAccessible(true);
+
+                    ((Paint) selectorWheelPaintField.get(numberPicker)).setColor(color);
+
+                    ((EditText) child).setTextColor(color);
+
+                    numberPicker.invalidate();
+
+                    return true;
+
+                } catch (NoSuchFieldException e) {
+
+//Log.w("setNumberPickerTextColor", e);
+
+                } catch (IllegalAccessException e) {
+
+//Log.w("setNumberPickerTextColor", e);
+
+                } catch (IllegalArgumentException e) {
+
+//Log.w("setNumberPickerTextColor", e);
+
+                }
+
+            }
+
+        }
+
+        return false;
+
     }
 }

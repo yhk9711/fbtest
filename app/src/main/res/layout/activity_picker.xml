@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="20dp"
+    android:background="#ffff"
+
     >
 
     <TextView
@@ -12,69 +14,77 @@
         android:gravity="center"
         android:layout_marginTop="15dp"
         android:layout_alignParentTop="true"
-        android:fontFamily="@font/font2"
         android:text="월별 통계"
+        android:textStyle="bold"
+        android:fontFamily="@font/font3"
+        android:textColor="#8ec1db"
         android:textSize="20dp"
-       />
+        />
 
     //NumberPicker 생성
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="#ffff"
         android:orientation="horizontal">
 
         <NumberPicker
-        android:id="@+id/picker_year"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-            android:fontFamily="@font/font2"
-        android:layout_margin="10dp"
-        >
-    </NumberPicker>
+            android:id="@+id/picker_year"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
 
-    <NumberPicker
-    android:id="@+id/picker_month"
-    android:layout_width="wrap_content"
-    android:layout_height="150dp"
-    android:layout_margin="10dp"
-        android:fontFamily="@font/font2"
-    >
-</NumberPicker>
+            android:background="#ffff"
+            >
+        </NumberPicker>
+
+        <NumberPicker
+            android:id="@+id/picker_month"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="#ffff"
+            >
+        </NumberPicker>
 
     </LinearLayout>
 
 
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_gravity="bottom"
-android:orientation="horizontal"
-android:layout_marginTop="10dp"
-    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
 
-<Button
-    android:id="@+id/btn_cancel"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="취소"
-    android:fontFamily="@font/font2"
-    android:textSize="20dp"
-    android:layout_weight="1"
-    android:textAllCaps="false"
-    />
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:fontFamily="@font/font2"
+            android:backgroundTint="#8ec1db"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            />
 
-<Button
-    android:id="@+id/btn_confirm"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="wrap_content"
-    android:textSize="20dp"
-    android:fontFamily="@font/font2"
-    android:text="확인"
-    android:textAllCaps="false"
-    android:paddingLeft="3dp"
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="#8ec1db"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="확인"
+            android:textStyle="bold"
+            android:fontFamily="@font/font2"
+            android:textAllCaps="false"
+            android:paddingLeft="3dp"
 
-    />
-</LinearLayout>
+            />
+    </LinearLayout>
 </LinearLayout>

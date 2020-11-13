@@ -27,9 +27,10 @@
         android:layout_weight="1"
         android:fontFamily="@font/font2"
         android:backgroundTint="#8ec1db"
+        android:background="#00ff0000"
         android:gravity="center"
         android:stateListAnimator="@null"
-        android:text="친구 끊기" />
+        android:text=" " />
 
 
 </LinearLayout>

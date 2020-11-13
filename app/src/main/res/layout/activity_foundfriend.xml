@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#d3ebf2"
     android:orientation="vertical"
     tools:context=".FoundFriendActivity">
 
@@ -15,22 +15,22 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="#ffff"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context="com.example.fbtest.MainActivity">
+        tools:context="com.example.lets_walk_firebase.MainActivity">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font2"
             android:layout_alignParentEnd="true"
             android:gravity="center"
             android:text="친구 찾기"
             android:textColor="#639cd4"
             android:textColorHint="#d3ebf2"
-            android:textSize="30dp"
+            android:textSize="33dp"
+            android:fontFamily="@font/font3"
             android:textStyle="bold" />
 
         <TextView
@@ -54,16 +54,15 @@
                 android:id="@+id/edit_id"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:fontFamily="@font/font2"
                 android:layout_below="@+id/textView2"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#ffffff"
+                android:backgroundTint="#F0F0F0"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="친구 ID를 입력하세요."
                 android:inputType="textPersonName"
                 android:maxLength="10"
-                android:textColor="#000000"
+                android:textColor="#505152"
                 android:textColorHint="#505152" />
 
             <TextView
@@ -83,7 +82,6 @@
                 android:background="@drawable/round_corner"
                 android:backgroundTint="#8ec1db"
                 android:gravity="center"
-                android:fontFamily="@font/font2"
                 android:stateListAnimator="@null"
                 android:text="검색" />
         </LinearLayout>
@@ -109,54 +107,52 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:fontFamily="@font/font2"
             android:gravity="center">
+
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="54dp"
-                android:layout_height="241dp"
+                android:layout_width="40dp"
+                android:layout_height="200dp"
                 app:srcCompat="@drawable/user" />
 
-            <TextView
+
+
+            <!--<TextView
                 android:id="@+id/blank_10"
                 android:layout_width="wrap_content"
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="  "
                 android:textColor="#000000"
-                android:textSize="25dp" />
+                android:textSize="25dp" />-->
 
             <TextView
                 android:id="@+id/friendname"
-                android:layout_width="98dp"
+                android:layout_width="70dp"
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="박연휘"
-
                 android:textColor="#000000"
-                android:fontFamily="@font/font2"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/friendage"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="24"
                 android:textColor="#000000"
-                android:fontFamily="@font/font2"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/friendgender"
-                android:layout_width="55dp"
+                android:layout_width="50dp"
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="여"
-                android:fontFamily="@font/font2"
                 android:textColor="#000000"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/blank_11"
@@ -175,7 +171,6 @@
                 android:background="@drawable/round_corner"
                 android:backgroundTint="#8ec1db"
                 android:gravity="center"
-                android:fontFamily="@font/font2"
                 android:stateListAnimator="@null"
                 android:text="추가" />
 

@@ -77,7 +77,7 @@ public final class LowActivity extends Activity implements OnFullscreenListener 
         setContentView(R.layout.activity_low);
 
         listFragment = (VideoListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
-        listFragment.getView().setBackgroundColor(Color.rgb(211, 235, 242));
+        listFragment.getView().setBackgroundColor(Color.rgb(255, 255, 255));
         videoFragment =
                 (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
 
