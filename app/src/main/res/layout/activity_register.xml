@@ -6,23 +6,16 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3ebf2"
+    android:background="#ffffff"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.example.fbtest.MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:gravity="center"
-        android:text="회원가입"
-        android:textColor="#639cd4"
-        android:textColorHint="#d3ebf2"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/signup4" />
     <TextView
         android:id="@+id/blank_"
         android:layout_width="wrap_content"
@@ -39,7 +32,7 @@
         android:gravity="center">
 
         <TextView
-
+            android:fontFamily="@font/font2"
             android:id="@+id/text_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +41,7 @@
             android:gravity="center"
             android:text="ID: "
 
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold"
 
@@ -56,13 +49,14 @@
 
 
         <EditText
-
+            android:fontFamily="@font/font2"
             android:id="@+id/edit_id"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="30dp"
             android:layout_below="@+id/textView2"
+            android:textSize="12dp"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="#f0f0f0"
             android:ems="10"
             android:gravity="center"
             android:hint=" 영문, 숫자 10자 이내"
@@ -78,15 +72,14 @@
         android:gravity="center">
 
         <TextView
-
+            android:fontFamily="@font/font2"
             android:id="@+id/text_pw"
-
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="PW: "
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold"
 
@@ -96,13 +89,12 @@
         <EditText
 
             android:id="@+id/edit_pw"
-
-            android:layout_width="wrap_content"
-
+            android:fontFamily="@font/font2"
+            android:layout_width="200dp"
             android:layout_height="30dp"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#ffffff"
-
+            android:backgroundTint="#f0f0f0"
+            android:textSize="12dp"
             android:ems="10"
             android:gravity="center"
             android:hint=" 영문, 숫자 10자 이내"
@@ -119,17 +111,15 @@
         android:gravity="center">
 
         <TextView
-
+            android:fontFamily="@font/font2"
             android:id="@+id/text_name"
 
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
             android:gravity="center"
-
             android:text="NAME: "
-
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold"
 
@@ -139,10 +129,12 @@
         <EditText
 
             android:id="@+id/edit_name"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="30dp"
+            android:fontFamily="@font/font2"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="#f0f0f0"
+            android:textSize="12dp"
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
@@ -158,13 +150,13 @@
         android:gravity="center">
 
         <TextView
-
+            android:fontFamily="@font/font2"
             android:id="@+id/text_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="AGE: "
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -172,11 +164,13 @@
         <EditText
 
             android:id="@+id/edit_age"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="30dp"
+            android:fontFamily="@font/font2"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="#f0f0f0"
             android:ems="10"
+            android:textSize="12dp"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="2"
@@ -190,13 +184,13 @@
         android:gravity="center">
 
         <TextView
-
+            android:fontFamily="@font/font2"
             android:id="@+id/text_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="HEIGHT: "
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -204,11 +198,13 @@
         <EditText
 
             android:id="@+id/edit_height"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="30dp"
+            android:fontFamily="@font/font2"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="#f0f0f0"
             android:ems="10"
+            android:textSize="12dp"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="3"
@@ -225,7 +221,7 @@
         <TextView
 
             android:id="@+id/text_gender"
-
+            android:fontFamily="@font/font2"
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
@@ -233,7 +229,7 @@
 
             android:text="GENDER: "
 
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -241,7 +237,7 @@
         <CheckBox
 
             android:id="@+id/check_man"
-
+            android:fontFamily="@font/font2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -249,7 +245,7 @@
 
             android:gravity="center"
             android:text="Man"
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textColorHint="#639cd4"
             android:textSize="15dp" />
 
@@ -257,7 +253,7 @@
         <CheckBox
 
             android:id="@+id/check_woman"
-
+            android:fontFamily="@font/font2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -266,7 +262,7 @@
             android:gravity="center"
 
             android:text="Woman"
-            android:textColor="#639cd4"
+            android:textColor="#8ec1db"
             android:textColorHint="#639cd4"
             android:textSize="15dp" />
 
@@ -281,12 +277,12 @@
         <Button
 
             android:id="@+id/btn_insert"
-
+            android:fontFamily="@font/font2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#52789e"
+            android:backgroundTint="#8ec1db"
             android:gravity="center"
             android:stateListAnimator="@null"
             android:text="가입완료" />

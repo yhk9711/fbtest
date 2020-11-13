@@ -25,7 +25,8 @@
         android:layout_width="25dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:backgroundTint="#52789e"
+        android:fontFamily="@font/font2"
+        android:backgroundTint="#8ec1db"
         android:gravity="center"
         android:stateListAnimator="@null"
         android:text="친구 끊기" />

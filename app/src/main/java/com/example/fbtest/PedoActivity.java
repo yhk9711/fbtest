@@ -508,8 +508,8 @@ public class PedoActivity extends Activity implements SensorEventListener {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        calendar.set(Calendar.HOUR_OF_DAY,11);
-        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         long aTime = System.currentTimeMillis();
@@ -735,12 +735,12 @@ public class PedoActivity extends Activity implements SensorEventListener {
 
             pieChart.setCenterText(nowstep);
             pieChart.setCenterTextSize(40f);
-            pieChart.setCenterTextColor(Color.BLACK);
+            pieChart.setCenterTextColor(Color.rgb(80, 81, 82));
 
             PieData data = new PieData(year, dataSet);          // MPAndroidChart v3.X 오류 발생
             pieChart.setData(data);
             data.setValueTextSize(14f);
-            //data.setValueTextColor(Color.TRANSPARENT);
+            data.setValueTextColor(Color.rgb(80, 81, 82));
             final int[] MY_COLORS = {Color.rgb(102, 153, 204), Color.rgb(255, 255, 255), Color.rgb(255, 192, 0),
                     Color.rgb(127, 127, 127), Color.rgb(146, 208, 80), Color.rgb(0, 176, 80), Color.rgb(79, 129, 189)};
             ArrayList<Integer> colors = new ArrayList<Integer>();

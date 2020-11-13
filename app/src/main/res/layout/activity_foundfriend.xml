@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3ebf2"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".FoundFriendActivity">
 
@@ -15,7 +15,7 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d3ebf2"
+        android:background="#ffffff"
         android:gravity="center"
         android:orientation="vertical"
         tools:context="com.example.fbtest.MainActivity">
@@ -24,6 +24,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font2"
             android:layout_alignParentEnd="true"
             android:gravity="center"
             android:text="친구 찾기"
@@ -53,6 +54,7 @@
                 android:id="@+id/edit_id"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:fontFamily="@font/font2"
                 android:layout_below="@+id/textView2"
                 android:background="@drawable/round_corner"
                 android:backgroundTint="#ffffff"
@@ -79,8 +81,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#52789e"
+                android:backgroundTint="#8ec1db"
                 android:gravity="center"
+                android:fontFamily="@font/font2"
                 android:stateListAnimator="@null"
                 android:text="검색" />
         </LinearLayout>
@@ -106,6 +109,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:fontFamily="@font/font2"
             android:gravity="center">
 
             <ImageView
@@ -129,7 +133,9 @@
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="박연휘"
+
                 android:textColor="#000000"
+                android:fontFamily="@font/font2"
                 android:textSize="20dp" />
 
             <TextView
@@ -139,6 +145,7 @@
                 android:gravity="center"
                 android:text="24"
                 android:textColor="#000000"
+                android:fontFamily="@font/font2"
                 android:textSize="20dp" />
 
             <TextView
@@ -147,6 +154,7 @@
                 android:layout_height="58dp"
                 android:gravity="center"
                 android:text="여"
+                android:fontFamily="@font/font2"
                 android:textColor="#000000"
                 android:textSize="20dp" />
 
@@ -165,8 +173,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#52789e"
+                android:backgroundTint="#8ec1db"
                 android:gravity="center"
+                android:fontFamily="@font/font2"
                 android:stateListAnimator="@null"
                 android:text="추가" />
 

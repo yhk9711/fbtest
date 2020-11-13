@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3ebf2"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".NoticeActivity">
 
@@ -18,12 +18,13 @@
         <TextView
             android:id="@+id/noticetext"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/font2"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
             android:text="공지사항"
-            android:textColor="#639cd4"
-            android:textSize="30dp" />
+            android:textColor="#8ec1db"
+            android:textSize="25dp" />
 
         <TextView
             android:id="@+id/blank15"
@@ -37,11 +38,12 @@
         <Button
             android:id="@+id/notice1"
             android:layout_width="361dp"
+            android:fontFamily="@font/font2"
             android:layout_height="19dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="#d3ebf2"
+            android:background="#ffffff"
             android:gravity="left"
             android:stateListAnimator="@null"
             android:text="[필독] 5월 13일 앱 업데이트 사항 및 버그 수정"
@@ -64,10 +66,11 @@
                 android:id="@+id/notice2"
                 android:layout_width="361dp"
                 android:layout_height="19dp"
+                android:fontFamily="@font/font2"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="#d3ebf2"
+                android:background="#ffffff"
                 android:gravity="left"
                 android:stateListAnimator="@null"
                 android:text="[공지]5월 8일 어버이날 기념 이벤트 공지"
@@ -92,9 +95,10 @@
                 android:layout_width="361dp"
                 android:layout_height="19dp"
                 android:layout_marginLeft="2dp"
+                android:fontFamily="@font/font2"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="#d3ebf2"
+                android:background="#ffffff"
                 android:gravity="left"
                 android:stateListAnimator="@null"
                 android:text="[공지]4월 15일 앱 업데이트 사항 및 버그 수정"
@@ -123,7 +127,8 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="#d3ebf2"
+                android:background="#ffffff"
+                android:fontFamily="@font/font2"
                 android:gravity="left"
                 android:stateListAnimator="@null"
                 android:text="[공지]3월 29일 앱 업데이트 사항 및 버그 수정"
@@ -142,7 +147,8 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="#d3ebf2"
+                android:fontFamily="@font/font2"
+                android:background="#ffffff"
                 android:gravity="left"
                 android:stateListAnimator="@null"
                 android:text="[공지]3월 1일 앱 업데이트 사항 및 버그 수정"
@@ -182,6 +188,7 @@
                 android:gravity="center"
                 android:text="1"
                 android:textColor="#1B5019"
+                android:fontFamily="@font/font2"
                 android:textSize="20dp" />
             <TextView
                 android:id="@+id/onepage"
@@ -189,6 +196,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="page"
+                android:fontFamily="@font/font2"
                 android:textColor="#1B5019"
                 android:textSize="15dp" />
         </LinearLayout>

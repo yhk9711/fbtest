@@ -59,9 +59,9 @@ public class ListViewBtnAdapter extends ArrayAdapter implements View.OnClickList
 
 
         // button2의 TAG에 position값 지정. Adapter를 click listener로 지정.
-        Button button2 = (Button) convertView.findViewById(R.id.button1);
-        button2.setTag(position);
-        button2.setOnClickListener(this);
+//        Button button2 = (Button) convertView.findViewById(R.id.button1);
+//        button2.setTag(position);
+//        button2.setOnClickListener(this);
 
         return convertView;
     }

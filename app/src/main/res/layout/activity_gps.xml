@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3ebf2"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".MapsActivity">
 
@@ -22,8 +22,9 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_weight="140"
             tools:context=".MapsActivity" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="목표 위치까지 약 "
+            android:fontFamily="@font/font2"
             android:textColor="#639cd4"
             android:textSize="20dp" />
 
@@ -67,7 +69,8 @@
             android:layout_marginRight="10dp"
             android:layout_weight="40"
             android:background="@drawable/round_corner"
-            android:backgroundTint="#52789e"
+            android:fontFamily="@font/font2"
+            android:backgroundTint="#8ec1db"
             android:text="Start" />
 
     </LinearLayout>
@@ -93,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
+                android:fontFamily="@font/font2"
                 android:textStyle="bold"
                 android:textColor="#639cd4"
                 android:textSize="20dp" />
@@ -104,6 +108,7 @@
                 android:gravity="center"
                 android:text="  kcal    "
                 android:textColor="#639cd4"
+                android:fontFamily="@font/font2"
                 android:textSize="15dp" />
 
 
@@ -124,6 +129,7 @@
                 android:gravity="center"
                 android:text="  m  "
                 android:textColor="#639cd4"
+                android:fontFamily="@font/font2"
                 android:textSize="15dp" />
 
             <TextView
@@ -134,6 +140,7 @@
                 android:text="0 "
                 android:textStyle="bold"
                 android:textColor="#639cd4"
+                android:fontFamily="@font/font2"
                 android:textSize="20dp" />
 
             <TextView
@@ -142,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text=" 걸음"
+                android:fontFamily="@font/font2"
                 android:textColor="#639cd4"
                 android:textSize="15dp" />
 

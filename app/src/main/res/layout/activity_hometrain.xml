@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d3ebf2"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".HomeTrainActivity">
 
@@ -16,7 +16,7 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d3ebf2"
+        android:background="#ffffff"
         android:gravity="center"
         android:orientation="vertical"
         tools:context="com.example.fbtest.MainActivity">
@@ -28,10 +28,18 @@
             android:layout_alignParentEnd="true"
             android:gravity="center"
             android:text="홈 트레이닝"
+            android:fontFamily="@font/font2"
             android:textColor="#639cd4"
             android:textColorHint="#d3ebf2"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center">
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/blank19"
@@ -48,8 +56,16 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="못 걸은 양을 홈트레이닝으로 채워보아요!"
+            android:fontFamily="@font/font2"
             android:textColor="#000000"
-            android:textSize="15dp" />
+            android:textSize="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center">
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -62,12 +78,13 @@
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:fontFamily="@font/font2"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#52789e"
+                android:backgroundTint="#8ec1db"
                 android:gravity="center"
                 android:stateListAnimator="@null"
                 android:text="상"
-                android:textSize="30dp" />
+                android:textSize="25dp" />
         </LinearLayout>
 
         <TextView
@@ -89,12 +106,13 @@
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:fontFamily="@font/font2"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#52789e"
+                android:backgroundTint="#8ec1db"
                 android:gravity="center"
                 android:stateListAnimator="@null"
                 android:text="중"
-                android:textSize="30dp" />
+                android:textSize="25dp" />
         </LinearLayout>
 
         <TextView
@@ -115,13 +133,14 @@
                 android:id="@+id/low"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font2"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/round_corner"
-                android:backgroundTint="#52789e"
+                android:backgroundTint="#8ec1db"
                 android:gravity="center"
                 android:stateListAnimator="@null"
                 android:text="하"
-                android:textSize="30dp" />
+                android:textSize="25dp" />
         </LinearLayout>
 
         <TextView

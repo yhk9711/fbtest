@@ -12,6 +12,7 @@
         android:gravity="center"
         android:layout_marginTop="15dp"
         android:layout_alignParentTop="true"
+        android:fontFamily="@font/font2"
         android:text="월별 통계"
         android:textSize="20dp"
        />
@@ -27,6 +28,7 @@
         android:id="@+id/picker_year"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
+            android:fontFamily="@font/font2"
         android:layout_margin="10dp"
         >
     </NumberPicker>
@@ -36,6 +38,7 @@
     android:layout_width="wrap_content"
     android:layout_height="150dp"
     android:layout_margin="10dp"
+        android:fontFamily="@font/font2"
     >
 </NumberPicker>
 
@@ -55,6 +58,7 @@ android:layout_marginTop="10dp"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:text="취소"
+    android:fontFamily="@font/font2"
     android:textSize="20dp"
     android:layout_weight="1"
     android:textAllCaps="false"
@@ -66,6 +70,7 @@ android:layout_marginTop="10dp"
     android:layout_weight="1"
     android:layout_height="wrap_content"
     android:textSize="20dp"
+    android:fontFamily="@font/font2"
     android:text="확인"
     android:textAllCaps="false"
     android:paddingLeft="3dp"

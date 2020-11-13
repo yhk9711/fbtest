@@ -22,6 +22,10 @@ public class FirebasePost {
     public int goal_step;
     public int height;
     public int index;
+    public String year;
+    public String month;
+    public String day;
+    public String date;
     public static List<String> friends;
     public static List<Integer> steps;
     public static List<Integer> paststeps;
@@ -34,8 +38,12 @@ public class FirebasePost {
 
     }
 
+    public FirebasePost(String date, Integer step){
 
-    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index, List<Integer> paststeps) {
+    }
+
+
+    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index, List<Integer> paststeps, String year, String month, String day, String date) {
 
         this.id = id;
         this.pw = pw;
@@ -49,6 +57,10 @@ public class FirebasePost {
         this.steps = steps;
         this.paststeps = paststeps;
         this.index =index;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.date = date;
 
     }
 
@@ -71,6 +83,10 @@ public class FirebasePost {
         result.put("steps", steps);
         result.put("paststeps", paststeps);
         result.put("index", index);
+        result.put("year", year);
+        result.put("month", month);
+        result.put("day", day);
+        result.put("date", date);
         return result;
 
     }
