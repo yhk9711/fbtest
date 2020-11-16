@@ -70,7 +70,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 ArrayList NoOfEmp = new ArrayList();
 
 
-                for(int j = 1; j < past_cnt.size(); j++){
+                for(int j = 0; j < past_cnt.size(); j++){
 
                     Log.e("past_cnt-size", String.valueOf(past_cnt.size()));
                     String date_value = String.valueOf(past_date.get(j));

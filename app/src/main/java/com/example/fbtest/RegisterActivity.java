@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
@@ -57,9 +56,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     int step = 0;
     int goal_step = 10000;
     int index = 0;
-    String year;
-    String month;
-    String day;
 
     public List<String> friends = new ArrayList<String>();
     public List<Integer> steps = new ArrayList<>();
@@ -218,34 +214,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         friends.add(ID);
         FirebasePost.friends=friends;
         Log.d("regis.fr", String.valueOf(friends));
-        for (int a = 0 ; a < 7; a++){
+        for (int a= 0 ; a<7; a++){
             steps.add(0);
         }
-
-        Date currentTime = Calendar.getInstance().getTime();
-        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
-        SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
-
-        String WeekDay = weekdayFormat.format(currentTime);
-        String year = yearFormat.format(currentTime);
-        String month = monthFormat.format(currentTime);
-        String day = dayFormat.format(currentTime);
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat register_date = new SimpleDateFormat("yyyy-MM-dd");
-        String getTime = register_date.format(date);
-        /*SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd");
+        FirebasePost user = new FirebasePost();
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMdd");
         Date time = new Date();
         String time1 = format1.format(time);
-        Map<String, Integer> map1 = new HashMap<>();
-        map1.put(time1, 0);
-        Map<String, Map<String, Integer>> map = new HashMap<>();
-        map.put("paststeps", map1);*/
 
-
-        paststeps.add(0);
+        user.WritePastSteps(ID,time1);
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -254,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(add){
 
-            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps, index, paststeps, year, month, day, getTime);
+            FirebasePost post = new FirebasePost(ID, PW, name, age, gender, step, goal_step, height, friends, steps, index, paststeps);
             postValues = post.toMap();
 
         }
@@ -343,7 +320,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     postFirebaseDatabase(true);
                     getFirebaseDatabase();
-
+                    FirebasePost user = new FirebasePost();
+                    Calendar cal = Calendar.getInstance();
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH) + 1;
+                    user.Writeregyear(ID, year);
+                    user.Writeregmonth(ID, month);
                     setInsertMode();
                     Toast.makeText(getApplicationContext(),"회원가입에 성공하셨습니다.",Toast.LENGTH_LONG).show();
 

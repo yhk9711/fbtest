@@ -1,4 +1,6 @@
 package com.example.fbtest;
+
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,12 +40,8 @@ public class FirebasePost {
 
     }
 
-    public FirebasePost(String date, Integer step){
 
-    }
-
-
-    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index, List<Integer> paststeps, String year, String month, String day, String date) {
+    public FirebasePost(String id, String pw, String name, Long age, String gender, int step, int goal_step, int height, List<String> friends, List<Integer> steps, int index, List<Integer> paststeps) {
 
         this.id = id;
         this.pw = pw;
@@ -128,5 +126,13 @@ public class FirebasePost {
     public void WritePastSteps(String userId, String date) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("MEMBER").child(userId).child("paststeps").child(String.valueOf(date)).setValue(PedoActivity.cnt);
+    }
+    public void Writeregyear(String userId,int year) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("MEMBER").child(userId).child("regyear").setValue(year);
+    }
+    public void Writeregmonth(String userId,int month) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("MEMBER").child(userId).child("regmonth").setValue(month);
     }
 }
